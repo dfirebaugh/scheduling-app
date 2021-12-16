@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.time.ZoneId;
@@ -56,6 +57,7 @@ public class LoginScene extends Scene {
         usernameLabel = new Label(usernameLabelString);
         passwordLabel = new Label(passwordLabelString);
         errorMsgText = new Text(errorMsgString);
+        errorMsgText.setFill(Color.RED);
 
         parent.setAlignment(Pos.CENTER);
         parent.add(usernameLabel, 0,0);
@@ -135,34 +137,38 @@ public class LoginScene extends Scene {
     private void clearErrorMsg() {
         errorMsgString = "";
     }
+    private void setErrorMsg(String msg) {
+        errorMsgString = msg;
+        errorMsgText.setText(msg);
+    }
 
     private void evaluateCredentials() {
         if (language == "fr") {
             if (username == null) {
-                errorMsgString = errInvalidUsernameFR;
+                setErrorMsg(errInvalidUsernameFR);
                 return;
             }
             if (password == null) {
-                errorMsgString = errInvalidPasswordFR;
+                setErrorMsg(errInvalidPasswordFR);
                 return;
             }
-            if (false) {
-                errorMsgString = errInvalidCredentialsFR;
+            if (true) {
+                setErrorMsg(errInvalidCredentialsFR);
                 return;
             }
             return;
         }
 
         if (username == null) {
-            errorMsgString = errInvalidUsername;
+            setErrorMsg(errInvalidUsername);
             return;
         }
         if (password == null) {
-            errorMsgString = errInvalidPassword;
+            setErrorMsg(errInvalidPassword);
             return;
         }
-        if (false) {
-            errorMsgString = errInvalidCredentials;
+        if (true) {
+            setErrorMsg(errInvalidCredentials);
             return;
         }
     }
