@@ -1,4 +1,4 @@
-package sample;
+package scenes;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -10,11 +10,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
 import java.time.ZoneId;
 import java.util.Locale;
 
-public class LoginScene extends Scene {
+public class Login extends Scene {
+    private datastore.DataStore dataStore;
+    private SceneController sceneManger;
     private String language;
     private String username;
     private String password;
@@ -33,15 +34,17 @@ public class LoginScene extends Scene {
     private String loginBtnLabel;
     private String zoneIdString;
 
-    private String errInvalidPassword = "no password was entered";
-    private String errInvalidPasswordFR = "aucun mot de passe n'a été saisi";
-    private String errInvalidUsername = "no username was entered";
-    private String errInvalidUsernameFR = "aucun nom d'utilisateur n'a été saisi";
-    private String errInvalidCredentials = "invalid credentials";
-    private String errInvalidCredentialsFR = "les informations d'identification invalides";
+    private static final String errInvalidPassword = "no password was entered";
+    private static final String errInvalidPasswordFR = "aucun mot de passe n'a été saisi";
+    private static final String errInvalidUsername = "no username was entered";
+    private static final String errInvalidUsernameFR = "aucun nom d'utilisateur n'a été saisi";
+    private static final String errInvalidCredentials = "invalid credentials";
+    private static final String errInvalidCredentialsFR = "les informations d'identification invalides";
 
-    public LoginScene(GridPane parent) {
+    public Login(GridPane parent, datastore.DataStore ds, SceneController sm) {
         super(parent);
+        sceneManger = sm;
+        dataStore = ds;
         parent.setMinWidth(300);
         parent.setMinHeight(275);
 
@@ -152,9 +155,12 @@ public class LoginScene extends Scene {
                 setErrorMsg(errInvalidPasswordFR);
                 return;
             }
-            if (true) {
-                setErrorMsg(errInvalidCredentialsFR);
+            if (dataStore.login(username, password)) {
+                setErrorMsg("success");
+                sceneManger.switchToHome();
                 return;
+            } else {
+                setErrorMsg(errInvalidCredentialsFR);
             }
             return;
         }
@@ -167,9 +173,12 @@ public class LoginScene extends Scene {
             setErrorMsg(errInvalidPassword);
             return;
         }
-        if (true) {
-            setErrorMsg(errInvalidCredentials);
+        if (dataStore.login(username, password)) {
+            setErrorMsg("success");
+            sceneManger.switchToHome();
             return;
+        } else {
+            setErrorMsg(errInvalidCredentials);
         }
     }
 }
