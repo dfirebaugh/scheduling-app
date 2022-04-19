@@ -51,16 +51,16 @@ public class Customer {
 
     public Customer(ResultSet result){
         try {
-        this.id = result.getInt("Customer_ID");
-        this.name = result.getString("Customer_Name");
-        this.address = result.getString("Address");
-        this.postalCode = result.getString("Postal_Code");
-        this.phone = result.getString("Phone");
-        this.createDate = result.getDate("Create_Date");
-        this.createdBy = result.getString("Created_By");
-        this.lastUpdated = result.getTimestamp("Last_Update");
-        this.lastUpdatedBy = result.getString("Last_Updated_By");
-        this.divisionID = result.getInt("Division_ID");
+            this.id = result.getInt("Customer_ID");
+            this.name = result.getString("Customer_Name");
+            this.address = result.getString("Address");
+            this.postalCode = result.getString("Postal_Code");
+            this.phone = result.getString("Phone");
+            this.createDate = result.getDate("Create_Date");
+            this.createdBy = result.getString("Created_By");
+            this.lastUpdated = result.getTimestamp("Last_Update");
+            this.lastUpdatedBy = result.getString("Last_Updated_By");
+            this.divisionID = result.getInt("Division_ID");
         } catch (SQLException e) {
             Logger.error("SQLException: " + e.getMessage());
         }

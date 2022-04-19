@@ -39,22 +39,19 @@ public class CustomerStore {
         return null;
     }
     public static Customer get(Customer lookup) {
-        if (lookup.id != 0)
-            return CustomerStore.getByID(lookup);
-
-        if (lookup.name != "")
+        if (lookup.id == 0 && lookup.name.length() > 0)
             return CustomerStore.getByName(lookup);
 
-        return null;
+        return CustomerStore.getByID(lookup);
     }
     public static boolean add(Customer customer) {
         try {
             String query = String.format(
-                "INSERT INTO `client_schedule`.`customers` (`Customer_Name`,`Address`,`Postal_Code`,`Phone`,`Create_Date`,`Created_By`,`Last_Update`,`Last_Updated_By`,`Division_ID`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %d);", 
+                "INSERT INTO `client_schedule`.`customers` (`Customer_Name`,`Address`,`Postal_Code`,`Phone`,`Create_Date`,`Created_By`,`Last_Update`,`Last_Updated_By`,`Division_ID`) VALUES ('%s', '%s', '%s', '%s', NOW(), '%s', NOW(), '%s', %d);", 
                 customer.name,
                 customer.address, customer.postalCode,
-                customer.phone, customer.createDate,
-                customer.createdBy, customer.lastUpdated,
+                customer.phone, 
+                customer.createdBy, 
                 customer.lastUpdatedBy, customer.divisionID
             );
 
@@ -72,11 +69,11 @@ public class CustomerStore {
     public static boolean update(Customer update) {
         try {
             String query = String.format(
-                "UPDATE `client_schedule`.`customers` SET `Customer_Name` = '%s', `Address` = '%s', `Postal_Code` = '%s', `Phone` = '%s', `Create_Date` = '%s', `Created_By` = '%s', `Last_Update` = '%s', `Last_Updated_By` = '%s', `Division_ID` = %d WHERE `Customer_ID` = %d;", 
+                "UPDATE `client_schedule`.`customers` SET `Customer_Name` = '%s', `Address` = '%s', `Postal_Code` = '%s', `Phone` = '%s', `Created_By` = '%s', `Last_Update` = NOW(), `Last_Updated_By` = '%s', `Division_ID` = %d WHERE `Customer_ID` = %d;", 
                 update.name, 
                 update.address, update.postalCode, 
-                update.phone, update.createDate, 
-                update.createdBy, update.lastUpdated, 
+                update.phone,
+                update.createdBy,
                 update.lastUpdatedBy, update.divisionID,
                 update.id
             );

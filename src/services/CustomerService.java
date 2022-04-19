@@ -15,11 +15,11 @@ public class CustomerService {
     }
     public Customer add(Customer customer) {
         CustomerStore.add(customer);
-        return this.get(customer);
+        return CustomerStore.get(customer);
     }
     public Customer update(Customer customer) {
         CustomerStore.update(customer);
-        return this.get(customer);
+        return CustomerStore.get(customer);
     }
     public void delete(Customer customer) {
         this.appointmentService.deleteAllCustomersAppointments(customer);
