@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import services.Logger;
+import services.UserService;
+
 import java.time.ZoneId;
 import java.util.Locale;
 
@@ -17,6 +20,7 @@ import datastore.UserStore;
 
 public class Login extends Scene {
     private SceneController sceneManger;
+    private UserService userService;
     private String language;
     private String username;
     private String password;
@@ -42,8 +46,9 @@ public class Login extends Scene {
     private static final String errInvalidCredentials = "invalid credentials";
     private static final String errInvalidCredentialsFR = "les informations d'identification invalides";
 
-    public Login(GridPane parent, SceneController sm) {
+    public Login(GridPane parent, SceneController sm, UserService us) {
         super(parent);
+        userService = us;
         sceneManger = sm;
         parent.setMinWidth(300);
         parent.setMinHeight(275);
@@ -127,9 +132,9 @@ public class Login extends Scene {
         var loginBtn = new Button();
         loginBtn.setText(loginBtnLabel);
         loginBtn.setOnAction(e -> {
-            System.out.println("processing login...");
-            System.out.println("username: " + this.username);
-            System.out.println("password: " + this.password);
+            Logger.info("processing login...");
+            Logger.info("username: " + this.username);
+            Logger.info("password: " + this.password);
 
             evaluateCredentials();
         });
@@ -155,7 +160,7 @@ public class Login extends Scene {
                 setErrorMsg(errInvalidPasswordFR);
                 return;
             }
-            if (UserStore.login(username, password)) {
+            if (this.userService.login(username, password)) {
                 setErrorMsg("success");
                 sceneManger.switchToHome();
                 return;
@@ -173,7 +178,7 @@ public class Login extends Scene {
             setErrorMsg(errInvalidPassword);
             return;
         }
-        if (UserStore.login(username, password)) {
+        if (this.userService.login(username, password)) {
             setErrorMsg("success");
             sceneManger.switchToHome();
             return;

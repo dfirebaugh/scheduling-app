@@ -1,6 +1,9 @@
 package models;
 
 import java.sql.Timestamp;
+
+import services.Logger;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,11 +58,25 @@ public class Appointment {
             this.userID = result.getInt("Customer_ID");
             this.contactID = result.getInt("Customer_ID");
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
+            Logger.error("SQLException: " + e.getMessage());
         }
     }
 
     public void print() {
-        System.out.println(this.id + this.title + this.description + this.location + this.type + this.start + this.end + this.createDate + this.createdBy + this.lastUpdated + this.lastUpdatedBy + this.customerID + this.userID + this.contactID);
+        Logger.info(
+            this.id + " " +
+            this.title + " " +
+            this.description + " " +
+            this.location + " " +
+            this.type + " " +
+            this.start + " " +
+            this.end + " " +
+            this.createDate + " " +
+            this.createdBy + " " +
+            this.lastUpdated + " " +
+            this.lastUpdatedBy + " " +
+            this.customerID + " " +
+            this.userID + " " +
+            this.contactID);
     }
 }

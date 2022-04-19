@@ -67,7 +67,16 @@ public class Customer {
     }
 
     public void print() {
-        Logger.info("SQLException: " + this.id + this.name + this.address + this.postalCode + this.phone
-                + this.createDate + this.createdBy + this.lastUpdated + this.lastUpdatedBy + this.divisionID);
+        Logger.info(
+            this.id +  " " + 
+            this.name +  " " + 
+            this.address +  " " + 
+            this.postalCode +  " " + 
+            this.phone +  " " + 
+            this.createDate +  " " + 
+            this.createdBy +  " " + 
+            this.lastUpdated +  " " + 
+            this.lastUpdatedBy +  " " + 
+            this.divisionID);
     }
 }

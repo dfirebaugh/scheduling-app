@@ -1,21 +1,28 @@
 package services;
 
+import datastore.CustomerStore;
 import models.Customer;
 
 public class CustomerService {
     private final AppointmentService appointmentService;
 
-    CustomerService(final AppointmentService appointmentService) {
+    public CustomerService(final AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
 
-    public void add(Customer customer) {
-        // this.store.addCustomer(customer);
+    public Customer get(Customer lookup) {
+        return CustomerStore.get(lookup);
     }
-    public void update(Customer customer) {
-        // this.store.updateCustomer(customer);
+    public Customer add(Customer customer) {
+        CustomerStore.add(customer);
+        return this.get(customer);
+    }
+    public Customer update(Customer customer) {
+        CustomerStore.update(customer);
+        return this.get(customer);
     }
     public void delete(Customer customer) {
-        // this.store.deleteCustomer(customer);
+        this.appointmentService.deleteAllCustomersAppointments(customer);
+        CustomerStore.delete(customer);
     }
 }
