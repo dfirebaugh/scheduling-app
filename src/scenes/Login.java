@@ -13,8 +13,9 @@ import javafx.scene.text.Text;
 import java.time.ZoneId;
 import java.util.Locale;
 
+import datastore.UserStore;
+
 public class Login extends Scene {
-    private datastore.DataStore dataStore;
     private SceneController sceneManger;
     private String language;
     private String username;
@@ -41,10 +42,9 @@ public class Login extends Scene {
     private static final String errInvalidCredentials = "invalid credentials";
     private static final String errInvalidCredentialsFR = "les informations d'identification invalides";
 
-    public Login(GridPane parent, datastore.DataStore ds, SceneController sm) {
+    public Login(GridPane parent, SceneController sm) {
         super(parent);
         sceneManger = sm;
-        dataStore = ds;
         parent.setMinWidth(300);
         parent.setMinHeight(275);
 
@@ -155,7 +155,7 @@ public class Login extends Scene {
                 setErrorMsg(errInvalidPasswordFR);
                 return;
             }
-            if (dataStore.login(username, password)) {
+            if (UserStore.login(username, password)) {
                 setErrorMsg("success");
                 sceneManger.switchToHome();
                 return;
@@ -173,7 +173,7 @@ public class Login extends Scene {
             setErrorMsg(errInvalidPassword);
             return;
         }
-        if (dataStore.login(username, password)) {
+        if (UserStore.login(username, password)) {
             setErrorMsg("success");
             sceneManger.switchToHome();
             return;

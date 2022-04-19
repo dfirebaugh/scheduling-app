@@ -1,6 +1,5 @@
 package scenes;
 
-import datastore.DataStore;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -8,11 +7,9 @@ import javafx.scene.layout.GridPane;
 
 public class Home extends Scene {
     SceneController sceneManger;
-    DataStore dataStore;
-    public Home(GridPane parent, datastore.DataStore ds, SceneController sm) {
+    public Home(GridPane parent, SceneController sm) {
         super(parent);
         sceneManger = sm;
-        dataStore = ds;
         parent.setMinWidth(300);
         parent.setMinHeight(275);
 
