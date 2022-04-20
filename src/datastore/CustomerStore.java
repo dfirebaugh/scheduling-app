@@ -19,7 +19,7 @@ public class CustomerStore {
     }
 
     public static Customer get(Customer lookup) throws SQLException {
-        if (lookup.id == 0 && lookup.name.length() > 0)
+        if (lookup.getId() == 0 && lookup.getName().length() > 0)
             return CustomerStore.getByName(lookup);
 
         return CustomerStore.getByID(lookup);

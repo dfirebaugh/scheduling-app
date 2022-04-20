@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import models.Appointment;
 
 public class AppointmentStore {
+
     public static ObservableList<Appointment> get() throws SQLException {
         ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.get());
 
@@ -19,12 +20,11 @@ public class AppointmentStore {
         }
         return appointments;
     }
-
     public static Appointment get(Appointment lookup) throws SQLException {
-        if (lookup.id != 0)
+        if (lookup.getId() != 0)
             return AppointmentStore.getByID(lookup);
 
-        if (lookup.title != "")
+        if (lookup.getTitle() != "")
             return AppointmentStore.getByTitle(lookup);
 
         return null;

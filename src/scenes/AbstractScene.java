@@ -7,7 +7,7 @@ import services.AppointmentService;
 import services.CustomerService;
 import services.Logger;
 
-public class AbstractScene extends Scene {
+public abstract class AbstractScene extends Scene {
     public GridPane parent;
     public SceneController sceneManger;
     public AppointmentService appointmentService;

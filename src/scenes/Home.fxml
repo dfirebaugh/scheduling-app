@@ -50,24 +50,7 @@
                               <Label contentDisplay="CENTER" text="Appointments" textAlignment="CENTER" BorderPane.alignment="CENTER" />
                            </top>
                            <center>
-                              <TableView fx:id="monthAppointmentTable" prefHeight="246.0" prefWidth="629.0" BorderPane.alignment="CENTER">
-                                <columns>
-                                    <TableColumn prefWidth="75.0" text="Appointment_ID" />
-                                    <TableColumn prefWidth="75.0" text="Title" />
-                                    <TableColumn prefWidth="75.0" text="Description" />
-                                    <TableColumn prefWidth="75.0" text="Location" />
-                                    <TableColumn prefWidth="75.0" text="Type" />
-                                    <TableColumn prefWidth="75.0" text="Start" />
-                                    <TableColumn prefWidth="75.0" text="End" />
-                                    <TableColumn prefWidth="75.0" text="Create_Date" />
-                                    <TableColumn prefWidth="75.0" text="Created_By" />
-                                    <TableColumn prefWidth="75.0" text="Last_Update" />
-                                    <TableColumn prefWidth="75.0" text="Last_Updated_By" />
-                                    <TableColumn prefWidth="75.0" text="Customer_ID" />
-                                    <TableColumn prefWidth="75.0" text="User_ID" />
-                                    <TableColumn prefWidth="75.0" text="Contact_ID" />
-                                </columns>
-                              </TableView>
+                              <TableView fx:id="monthAppointmentTable" prefHeight="246.0" prefWidth="629.0" BorderPane.alignment="CENTER"></TableView>
                            </center>
                         </BorderPane>
                      </center>
@@ -83,20 +66,7 @@
                               </ButtonBar>
                            </bottom>
                            <center>
-                              <TableView fx:id="customerTable" prefHeight="193.0" prefWidth="580.0" BorderPane.alignment="CENTER">
-                                <columns>
-                                    <TableColumn prefWidth="75.0" text="Customer_ID" />
-                                    <TableColumn prefWidth="75.0" text="Customer_Name" />
-                                    <TableColumn prefWidth="75.0" text="Address" />
-                                    <TableColumn prefWidth="75.0" text="Postal_Code" />
-                                    <TableColumn prefWidth="75.0" text="Phone" />
-                                    <TableColumn prefWidth="75.0" text="Create_Date" />
-                                    <TableColumn prefWidth="75.0" text="Created_By" />
-                                    <TableColumn prefWidth="75.0" text="Last_Update" />
-                                    <TableColumn prefWidth="75.0" text="Last_Updated_By" />
-                                    <TableColumn prefWidth="75.0" text="Division_ID" />
-                                </columns>
-                              </TableView>
+                              <TableView fx:id="customerTable" prefHeight="193.0" prefWidth="580.0" BorderPane.alignment="CENTER"></TableView>
                            </center>
                            <top>
                               <Label text="Customers" BorderPane.alignment="CENTER" />
