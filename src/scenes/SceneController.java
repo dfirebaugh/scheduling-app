@@ -5,36 +5,53 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import services.AppointmentService;
+import services.CustomerService;
 import services.Logger;
 import services.UserService;
 
 public class SceneController {
     Stage primaryStage;
-    public Scene loginScene;
-    public Scene homeScene;
 
-    public SceneController(Stage ps) {
+    UserService userService;
+    CustomerService customerService;
+    AppointmentService appointmentService;
+
+    private void initLogLevel() {
         Logger.level = Logger.LogLevelInfo;
-        JDBC.makeConnection();
+    }
 
-        GridPane layout = new GridPane();
+    private void initServices() {
+        this.userService = new UserService();
+        this.appointmentService = new AppointmentService();
+        this.customerService = new CustomerService(appointmentService);
+    }
 
+    private void initStage(Stage ps){
         primaryStage = ps;
         primaryStage.setTitle("Hello World");
+    }
 
-        loginScene = new Login(layout, this, new UserService());
+    public SceneController(Stage ps) {
+        initLogLevel();
+        initServices();
+        JDBC.makeConnection();
+        initStage(ps);
 
-        setScene(loginScene);
-
+        switchToLogin();
         primaryStage.setOnCloseRequest(e -> closeProgram());
     }
 
+    public void switchToLogin() {
+        this.setScene(new Login(new GridPane(), this, this.userService));
+    }
     public void switchToHome() {
-        GridPane layout = new GridPane();
-        homeScene = new Home(layout, this, new AppointmentService());
-
-        primaryStage.setScene(homeScene);
-        primaryStage.show();
+        this.setScene(new Home(new GridPane(), this, this.appointmentService, this.customerService));
+    }
+    public void switchToAppointment(String mode) {
+        this.setScene(new Appointment(new GridPane(), this, this.appointmentService, mode));
+    }
+    public void switchToCustomer(String mode) {
+        this.setScene(new Customer(new GridPane(), this, this.customerService, mode));
     }
 
     public void setScene(Scene scene) {

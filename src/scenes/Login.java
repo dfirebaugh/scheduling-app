@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 import services.Logger;
 import services.UserService;
 
-import java.beans.EventHandler;
 import java.time.ZoneId;
 import java.util.Locale;
 

@@ -40,8 +40,8 @@
                            <bottom>
                               <ButtonBar prefHeight="50.0" prefWidth="520.0" BorderPane.alignment="CENTER">
                                 <buttons>
-                                      <Button mnemonicParsing="false" text="Add" />
-                                      <Button mnemonicParsing="false" text="Modify" />
+                                      <Button mnemonicParsing="false" onAction="#handleAddAppointment" text="Add" />
+                                      <Button mnemonicParsing="false" text="Modify" onAction="#handleModifyAppointment" />
                                       <Button mnemonicParsing="false" text="Delete" />
                                 </buttons>
                               </ButtonBar>
@@ -50,7 +50,7 @@
                               <Label contentDisplay="CENTER" text="Appointments" textAlignment="CENTER" BorderPane.alignment="CENTER" />
                            </top>
                            <center>
-                              <TableView fx:id="monthTable" prefHeight="246.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                              <TableView fx:id="monthAppointmentTable" prefHeight="246.0" prefWidth="629.0" BorderPane.alignment="CENTER">
                                 <columns>
                                     <TableColumn prefWidth="75.0" text="Appointment_ID" />
                                     <TableColumn prefWidth="75.0" text="Title" />
@@ -76,14 +76,14 @@
                            <bottom>
                               <ButtonBar prefHeight="47.0" prefWidth="629.0" BorderPane.alignment="CENTER">
                                 <buttons>
-                                  <Button mnemonicParsing="false" text="Add" />
-                                  <Button mnemonicParsing="false" text="Modify" />
+                                  <Button mnemonicParsing="false" text="Add" onAction="#handleAddCustomer" />
+                                  <Button mnemonicParsing="false" text="Modify" onAction="#handleModifyCustomer" />
                                   <Button mnemonicParsing="false" text="Delete" />
                                 </buttons>
                               </ButtonBar>
                            </bottom>
                            <center>
-                              <TableView prefHeight="193.0" prefWidth="580.0" BorderPane.alignment="CENTER">
+                              <TableView fx:id="customerTable" prefHeight="193.0" prefWidth="580.0" BorderPane.alignment="CENTER">
                                 <columns>
                                     <TableColumn prefWidth="75.0" text="Customer_ID" />
                                     <TableColumn prefWidth="75.0" text="Customer_Name" />
