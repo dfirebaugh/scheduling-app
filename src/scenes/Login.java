@@ -7,12 +7,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import services.Logger;
 import services.UserService;
 
+import java.beans.EventHandler;
 import java.time.ZoneId;
 import java.util.Locale;
 
@@ -68,15 +70,29 @@ public class Login extends Scene {
         errorMsgText.setFill(Color.RED);
 
         parent.setAlignment(Pos.CENTER);
-        parent.add(usernameLabel, 0,0);
-        parent.add(usernameField, 0,1);
-        parent.add(passwordLabel, 0,2);
-        parent.add(passwordField, 0,3);
+        parent.add(usernameLabel, 0, 0);
+        parent.add(usernameField, 0, 1);
+        parent.add(passwordLabel, 0, 2);
+        parent.add(passwordField, 0, 3);
         parent.add(loginBtn, 0, 4);
         parent.add(errorMsgText, 0, 5);
 
         parent.setHalignment(zoneIdLabel, HPos.LEFT);
-        parent.add(zoneIdLabel, 0,20 );
+        parent.add(zoneIdLabel, 0, 20);
+        setupOnEnterHandler();
+    }
+
+    private void setupOnEnterHandler() {
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                evaluateCredentials();
+            }
+        });
+        usernameField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                evaluateCredentials();
+            }
+        });
     }
 
     private void initLabels() {
@@ -115,9 +131,9 @@ public class Login extends Scene {
             clearErrorMsg();
         });
 
-
         return textField;
     }
+
     private PasswordField setupPasswordField() {
         PasswordField textField = new PasswordField();
         textField.setOnKeyReleased(e -> {
@@ -125,9 +141,9 @@ public class Login extends Scene {
             clearErrorMsg();
         });
 
-
         return textField;
     }
+
     private Button setupLoginBtn() {
         var loginBtn = new Button();
         loginBtn.setText(loginBtnLabel);
@@ -145,6 +161,7 @@ public class Login extends Scene {
     private void clearErrorMsg() {
         errorMsgString = "";
     }
+
     private void setErrorMsg(String msg) {
         errorMsgString = msg;
         errorMsgText.setText(msg);

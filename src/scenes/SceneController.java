@@ -4,6 +4,7 @@ import datastore.JDBC;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import services.AppointmentService;
 import services.Logger;
 import services.UserService;
 
@@ -30,7 +31,7 @@ public class SceneController {
 
     public void switchToHome() {
         GridPane layout = new GridPane();
-        homeScene = new Home(layout, this);
+        homeScene = new Home(layout, this, new AppointmentService());
 
         primaryStage.setScene(homeScene);
         primaryStage.show();

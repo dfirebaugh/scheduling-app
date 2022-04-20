@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import models.Appointment;
 import services.Logger;
 
@@ -32,6 +34,25 @@ public class AppointmentStore {
             while (result.next()) {
                 return new Appointment(result);
             }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+
+        return null;
+    }
+    public static ObservableList<Appointment> get() {
+        try {
+            String query = String.format("SELECT * FROM Appointments;");
+            PreparedStatement stmt = JDBC.getConnection().prepareStatement(query);
+            ResultSet result = stmt.executeQuery();
+
+            ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+            while (result.next()) {
+                Appointment a = new Appointment(result);
+                a.print();
+                appointments.add(a);
+            }
+            return appointments;
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
