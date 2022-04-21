@@ -26,7 +26,7 @@
                                   <Button mnemonicParsing="false" text="Appointment Types Report" />
                                   <Button mnemonicParsing="false" text="Consultant Schedule Report" />
                                   <Button mnemonicParsing="false" text="Appointment Customer Report" />
-                                  <Button mnemonicParsing="false" text="Log Off" />
+                                  <Button mnemonicParsing="false" text="Log Off" onAction="#handleLogout" />
                                 </buttons>
                               </ButtonBar>
                            </center>
@@ -42,7 +42,7 @@
                                 <buttons>
                                       <Button mnemonicParsing="false" onAction="#handleAddAppointment" text="Add" />
                                       <Button mnemonicParsing="false" text="Modify" onAction="#handleModifyAppointment" />
-                                      <Button mnemonicParsing="false" text="Delete" />
+                                      <Button mnemonicParsing="false" text="Delete" onAction="#handleMonthDeleteAppointment" />
                                 </buttons>
                               </ButtonBar>
                            </bottom>
@@ -61,7 +61,7 @@
                                 <buttons>
                                   <Button mnemonicParsing="false" text="Add" onAction="#handleAddCustomer" />
                                   <Button mnemonicParsing="false" text="Modify" onAction="#handleModifyCustomer" />
-                                  <Button mnemonicParsing="false" text="Delete" />
+                                  <Button mnemonicParsing="false" text="Delete" onAction="#handleDeleteCustomer" />
                                 </buttons>
                               </ButtonBar>
                            </bottom>
@@ -92,7 +92,7 @@
                                   <Button mnemonicParsing="false" text="Appointment Types Report" />
                                   <Button mnemonicParsing="false" text="Consultant Schedule Report" />
                                   <Button mnemonicParsing="false" text="Appointment Customer Report" />
-                                  <Button mnemonicParsing="false" text="Log Off" />
+                                  <Button mnemonicParsing="false" text="Log Off" onAction="#handleLogout" />
                                 </buttons>
                               </ButtonBar>
                            </center>

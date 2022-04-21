@@ -33,87 +33,42 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints />
         </rowConstraints>
          <children>
-            <Label text="AppoitmentID" />
-            <TextField GridPane.columnIndex="1" />
-            <Label text="CustomerID" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Title" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Description" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Location" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Contact" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Type" GridPane.rowIndex="6" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="URL" GridPane.rowIndex="7" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label text="Date" GridPane.rowIndex="8" />
-            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="8">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                </rowConstraints>
-                <children>
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="0" />
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="2" />
-                </children>
-            </GridPane>
-            <Label text="Start Time" GridPane.rowIndex="9" />
-            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="9">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                </rowConstraints>
-                <children>
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="0" />
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="2" />
-                </children>
-            </GridPane>
-            <Label text="End Time" GridPane.rowIndex="10" />
-            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="10">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                </rowConstraints>
-                <children>
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="0" />
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
-                    <ComboBox prefWidth="150.0" GridPane.columnIndex="2" />
-                </children>
-            </GridPane>
+            <Label text="CustomerID" />
+            <TextField disable="true" GridPane.columnIndex="1" />
+            <Label text="Name" GridPane.rowIndex="1" />
+            <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Address" GridPane.rowIndex="2" />
+            <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Postal Code" GridPane.rowIndex="3" />
+            <TextField fx:id="postalCodeField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Phone" GridPane.rowIndex="4" />
+            <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Date Created" GridPane.rowIndex="5" />
+            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="createdBy" GridPane.rowIndex="6" />
+            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Last Updated" GridPane.rowIndex="7" />
+            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="Last Updated By" GridPane.rowIndex="8" />
+            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label text="Division" GridPane.rowIndex="9" />
+            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
          </children>
       </GridPane>
    </center>
    <top>
-      <Label fx:id="titleLabel" text="Customer"  BorderPane.alignment="CENTER" />
+      <Label fx:id="titleLabel" text="Customer" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
       <BorderPane prefHeight="43.0" prefWidth="592.0" BorderPane.alignment="CENTER">
          <right>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
-                <Button mnemonicParsing="false" text="Save" onAction="#handleSave" />
-                <Button mnemonicParsing="false" text="Close" onAction="#handleClose" />
+                <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
               </buttons>
             </ButtonBar>
          </right>

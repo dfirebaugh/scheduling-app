@@ -51,6 +51,25 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
+    public Customer(String name, String address, String postalCode, String phone) {
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.createdBy = "me";
+        this.lastUpdatedBy = "me";
+    }
+
+    public Customer(Integer id, String name, String address, String postalCode, String phone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.createdBy = "me";
+        this.lastUpdatedBy = "me";
+    }
+
     public Customer(ResultSet result) {
         try {
             this.id = result.getInt("Customer_ID");

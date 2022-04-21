@@ -9,6 +9,7 @@ import models.Appointment;
 import models.Customer;
 import services.AppointmentService;
 import services.CustomerService;
+import services.Logger;
 
 public class Home extends AbstractScene {
     @FXML private TableView<Appointment> monthAppointmentTable;
@@ -99,13 +100,29 @@ public class Home extends AbstractScene {
     public void handleAddAppointment() {
         this.sceneManger.switchToAppointment("Add Appointment");
     }
+    public void handleModifyAppointment() {
+        if (monthAppointmentTable.getSelectionModel().getSelectedItem() == null) return;
+        this.sceneManger.switchToAppointment("Edit Appointment", monthAppointmentTable.getSelectionModel().getSelectedItem());
+    }
+    public void handleMonthDeleteAppointment() {
+        if (monthAppointmentTable.getSelectionModel().getSelectedItem() == null) return;
+        Logger.info("handle Delete: " + monthAppointmentTable.getSelectionModel().getSelectedItem().getId());
+        // if (!util.confirmDelete(partsTable.getSelectionModel().getSelectedItem().getName())) return;
+    }
+
     public void handleAddCustomer() {
         this.sceneManger.switchToCustomer("Add Customer");
     }
-    public void handleModifyAppointment() {
-        this.sceneManger.switchToAppointment("Edit Appointment");
-    }
     public void handleModifyCustomer() {
-        this.sceneManger.switchToCustomer("Edit Customer");
+        if (customerTable.getSelectionModel().getSelectedItem() == null) return;
+        this.sceneManger.switchToCustomer("Edit Customer", customerTable.getSelectionModel().getSelectedItem());
+    }
+    public void handleLogout() {
+        this.sceneManger.switchToLogin();
+    }
+    public void handleDeleteCustomer() {
+        if (customerTable.getSelectionModel().getSelectedItem() == null) return;
+        Logger.info("handle Delete: " + customerTable.getSelectionModel().getSelectedItem().getId());
+        // if (!util.confirmDelete(partsTable.getSelectionModel().getSelectedItem().getName())) return;
     }
 }

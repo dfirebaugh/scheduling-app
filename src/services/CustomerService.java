@@ -37,6 +37,7 @@ public class CustomerService {
             return CustomerStore.get(customer);
         } catch (SQLException e) {
             Logger.error(e.getMessage());
+            Logger.error("stack: " + e.getStackTrace().toString());
             return null;
         }
     }
