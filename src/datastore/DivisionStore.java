@@ -17,4 +17,13 @@ public class DivisionStore {
         }
         return divisions;
     }
+    public static ObservableList<Division> get(Integer countryID) throws SQLException {
+        ResultSet result = DivisionQueries.executeQuery(DivisionQueries.get(countryID));
+
+        ObservableList<Division> divisions = FXCollections.observableArrayList();
+        while (result.next()) {
+            divisions.add(new Division(result));
+        }
+        return divisions;
+    }
 }

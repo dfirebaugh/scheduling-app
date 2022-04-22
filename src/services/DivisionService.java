@@ -15,4 +15,12 @@ public class DivisionService {
             return null;
         }
     }
+    public ObservableList<Division> get(Integer countryID) {
+        try {
+            return DivisionStore.get(countryID);
+        } catch (SQLException e) {
+            Logger.error(e);
+            return null;
+        }
+    }
 }

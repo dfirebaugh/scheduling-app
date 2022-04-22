@@ -9,9 +9,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
       <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
    </padding>
@@ -28,12 +29,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
         </rowConstraints>
          <children>
             <Label text="CustomerID" />
@@ -46,16 +41,13 @@
             <TextField fx:id="postalCodeField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Phone" GridPane.rowIndex="4" />
             <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Date Created" GridPane.rowIndex="5" />
-            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="createdBy" GridPane.rowIndex="6" />
-            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="Last Updated" GridPane.rowIndex="7" />
-            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label text="Last Updated By" GridPane.rowIndex="8" />
-            <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label text="Division" GridPane.rowIndex="9" />
-            <ComboBox fx:id="divisionComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label text="Division" GridPane.rowIndex="5" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <children>
+                  <ComboBox fx:id="countryComboBox" prefWidth="150.0" promptText="Country" onAction="#handleCountryUpdate" />
+                  <ComboBox fx:id="divisionComboBox" prefWidth="150.0" promptText="State/Province" />
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </center>

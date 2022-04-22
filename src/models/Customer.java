@@ -51,6 +51,7 @@ public class Customer {
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
     }
+    public Customer() {}
 
     public Customer(String name, String address, String postalCode, String phone, Integer divisionID) {
         this.name = name;
@@ -122,13 +123,12 @@ public class Customer {
     /**
      * @return the id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     public String getIdProperty() {
         return id.toString();
     }
-
     public String getName() {
         return this.name;
     };
