@@ -1,7 +1,8 @@
 package models;
 
 import java.sql.Timestamp;
-
+import java.util.Arrays;
+import java.util.stream.Stream;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,13 +52,14 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
-    public Customer(String name, String address, String postalCode, String phone) {
+    public Customer(String name, String address, String postalCode, String phone, Integer divisionID) {
         this.name = name;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-        this.createdBy = "me";
-        this.lastUpdatedBy = "me";
+        this.createdBy = "scheduling-app";
+        this.lastUpdatedBy = "scheduling-app";
+        this.divisionID = divisionID;
     }
 
     public Customer(Integer id, String name, String address, String postalCode, String phone) {
@@ -66,8 +68,8 @@ public class Customer {
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-        this.createdBy = "me";
-        this.lastUpdatedBy = "me";
+        this.createdBy = "scheduling-app";
+        this.lastUpdatedBy = "scheduling-app";
     }
 
     public Customer(ResultSet result) {
@@ -89,16 +91,32 @@ public class Customer {
 
     public void print() {
         Logger.info(
-                this.id + " " +
-                        this.name + " " +
-                        this.address + " " +
-                        this.postalCode + " " +
-                        this.phone + " " +
-                        this.createDate + " " +
-                        this.createdBy + " " +
-                        this.lastUpdated + " " +
-                        this.lastUpdatedBy + " " +
-                        this.divisionID);
+                id + " " +
+                name + " " +
+                address + " " +
+                postalCode + " " +
+                phone + " " +
+                createDate + " " +
+                createdBy + " " +
+                lastUpdated + " " +
+                lastUpdatedBy + " " +
+                divisionID);
+    }
+
+    public static Stream<String> getKeys() {
+        String[] keys = { 
+            "id",
+            "name",
+            "address",
+            "postalCode",
+            "phone",
+            "createDate",
+            "createdBy",
+            "lastUpdated",
+            "lastUpdatedBy",
+            "divisionID"
+        };
+        return Arrays.stream(keys);
     }
 
     /**
@@ -106,6 +124,9 @@ public class Customer {
      */
     public int getId() {
         return id;
+    }
+    public String getIdProperty() {
+        return id.toString();
     }
 
     public String getName() {
@@ -142,6 +163,9 @@ public class Customer {
 
     public Integer getDivisionID() {
         return this.divisionID;
+    };
+    public String getDivisionIDProperty() {
+        return this.divisionID.toString();
     };
 
 }

@@ -55,7 +55,7 @@
             <Label text="Last Updated By" GridPane.rowIndex="8" />
             <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label text="Division" GridPane.rowIndex="9" />
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <ComboBox fx:id="divisionComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
          </children>
       </GridPane>
    </center>

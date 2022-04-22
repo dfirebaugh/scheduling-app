@@ -1,5 +1,7 @@
 package services;
 
+import java.sql.SQLException;
+
 public class Logger {
     public static int level = 0;
     public static int LogLevelDebug = 1;
@@ -18,6 +20,14 @@ public class Logger {
     }
     public static void error(String input) {
         System.out.println("[ERROR]: " + input);
+    }
+    public static void error(Exception e) {
+        System.out.println("[ERROR]: " + e.getMessage());
+        System.out.println("[ERROR]: " + e.getStackTrace());
+    }
+    public static void error(SQLException e) {
+        System.out.println("[ERROR]: " + e.getMessage());
+        System.out.println("[ERROR]: " + e.getStackTrace());
     }
     public static void print(String input) {
         System.out.println("[PRINT]: " + input);

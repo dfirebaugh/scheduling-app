@@ -8,6 +8,7 @@ import models.Appointment;
 import models.Customer;
 import services.AppointmentService;
 import services.CustomerService;
+import services.DivisionService;
 import services.Logger;
 import services.UserService;
 
@@ -17,6 +18,7 @@ public class SceneController {
     UserService userService;
     CustomerService customerService;
     AppointmentService appointmentService;
+    DivisionService divisionService;
 
     private void initLogLevel() {
         Logger.level = Logger.LogLevelInfo;
@@ -25,7 +27,8 @@ public class SceneController {
     private void initServices() {
         this.userService = new UserService();
         this.appointmentService = new AppointmentService();
-        this.customerService = new CustomerService(appointmentService);
+        this.divisionService = new DivisionService();
+        this.customerService = new CustomerService(new AppointmentService());
     }
 
     private void initStage(Stage ps){
@@ -56,10 +59,10 @@ public class SceneController {
         this.setScene(new AppointmentScene(new GridPane(), this, this.appointmentService, mode, appointment));
     }
     public void switchToCustomer(String mode) {
-        this.setScene(new CustomerScene(new GridPane(), this, this.customerService, mode));
+        this.setScene(new CustomerScene(new GridPane(), this, this.customerService, this.divisionService, mode));
     }
     public void switchToCustomer(String mode, Customer customer) {
-        this.setScene(new CustomerScene(new GridPane(), this, this.customerService, mode, customer));
+        this.setScene(new CustomerScene(new GridPane(), this, this.customerService, this.divisionService, mode, customer));
     }
 
     public void setScene(Scene scene) {

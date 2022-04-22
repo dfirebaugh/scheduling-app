@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Appointment;
+import models.Customer;
 
-public class AppointmentStore {
+public class AppointmentStore extends AbstractStore {
 
     public static ObservableList<Appointment> get() throws SQLException {
         ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.get());
@@ -29,36 +30,22 @@ public class AppointmentStore {
 
         return null;
     }
-
     public static Appointment getByID(Appointment lookup) throws SQLException {
-        ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.getById(lookup));
-
-        while (result.next()) {
-            return new Appointment(result);
-        }
-        return null;
+        return new Appointment(getFirst(AppointmentQueries.executeQuery(AppointmentQueries.getById(lookup))));
     }
-
     public static Appointment getByTitle(Appointment lookup) throws SQLException {
-        ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.getByTitle(lookup));
-
-        while (result.next()) {
-            return new Appointment(result);
-        }
-        return null;
+        return new Appointment(getFirst(AppointmentQueries.executeQuery(AppointmentQueries.getByTitle(lookup))));
     }
-
     public static int add(Appointment appointment) throws SQLException {
         return AppointmentQueries.executeUpdate(AppointmentQueries.add(appointment));
     }
-
     public static int update(Appointment update) throws SQLException {
         return AppointmentQueries.executeUpdate(AppointmentQueries.update(update));
     }
-
     public static int delete(Appointment appointment) throws SQLException {
-        Appointment lookup = AppointmentStore.get(appointment);
-
-        return AppointmentQueries.executeUpdate(AppointmentQueries.delete(lookup));
+        return AppointmentQueries.executeUpdate(AppointmentQueries.delete(AppointmentStore.get(appointment)));
+    }
+    public static int deleteAllCustomersAppointments(Customer customer) throws SQLException {
+        return AppointmentQueries.executeUpdate(AppointmentQueries.deleteAllCustomersAppointments(customer));
     }
 }

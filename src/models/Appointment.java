@@ -1,6 +1,8 @@
 package models;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import services.Logger;
 
@@ -45,20 +47,20 @@ public class Appointment {
 
     public Appointment(ResultSet result) {
         try {
-            this.id = result.getInt("Customer_ID");
-            this.title = result.getString("Customer_ID");
-            this.description = result.getString("Customer_ID");
-            this.location = result.getString("Customer_ID");
-            this.type = result.getString("Customer_ID");
-            this.start = result.getDate("Customer_ID");
-            this.end = result.getDate("Customer_ID");
-            this.createDate = result.getDate("Customer_ID");
-            this.createdBy = result.getString("Customer_ID");
-            this.lastUpdated = result.getTimestamp("Customer_ID");
-            this.lastUpdatedBy = result.getString("Customer_ID");
+            this.id = result.getInt("Appointment_ID");
+            this.title = result.getString("Title");
+            this.description = result.getString("Description");
+            this.location = result.getString("Location");
+            this.type = result.getString("Type");
+            this.start = result.getDate("Start");
+            this.end = result.getDate("End");
+            this.createDate = result.getDate("Create_Date");
+            this.createdBy = result.getString("Created_By");
+            this.lastUpdated = result.getTimestamp("Last_Update");
+            this.lastUpdatedBy = result.getString("Last_Updated_By");
             this.customerID = result.getInt("Customer_ID");
-            this.userID = result.getInt("Customer_ID");
-            this.contactID = result.getInt("Customer_ID");
+            this.userID = result.getInt("User_ID");
+            this.contactID = result.getInt("Contact_ID");
         } catch (SQLException e) {
             Logger.error("SQLException: " + e.getMessage());
         }
@@ -82,46 +84,78 @@ public class Appointment {
                         this.contactID);
     }
 
+    public static Stream<String> getKeys() {
+        String[] keys = {
+                "id",
+                "title",
+                "description",
+                "location",
+                "type",
+                "start",
+                "end",
+                "createDate",
+                "createdBy",
+                "lastUpdated",
+                "lastUpdatedBy",
+                "customerID",
+                "userID",
+                "contactID"
+        };
+        return Arrays.stream(keys);
+    }
 
     public Integer getId() {
         return id;
     }
+
     public String getTitle() {
         return title;
     }
+
     public String getDescription() {
         return description;
     }
+
     public String getLocation() {
         return location;
     }
+
     public String getType() {
         return type;
     }
+
     public Date getStart() {
         return start;
     }
+
     public Date getEnd() {
         return end;
     }
+
     public Date getCreateDate() {
         return createDate;
     }
+
     public String getCreatedBy() {
         return createdBy;
     }
+
     public Timestamp getLastUpdated() {
         return lastUpdated;
     }
+
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
+
     public Integer getCustomerID() {
         return customerID;
     }
+
     public Integer getUserID() {
         return userID;
     }
+
     public Integer getContactID() {
         return contactID;
     }

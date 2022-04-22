@@ -17,7 +17,7 @@ public class CustomerService {
         try {
             return CustomerStore.get();
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            Logger.error(e);
             return null;
         }
     }
@@ -26,29 +26,25 @@ public class CustomerService {
         try {
             return CustomerStore.get(lookup);
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            Logger.error(e);
             return null;
         }
     }
 
-    public Customer add(Customer customer) {
+    public void add(Customer customer) {
         try {
-            CustomerStore.add(customer);
-            return CustomerStore.get(customer);
+            Logger.info("attempting to add costumer");
+            Logger.info("insterted " + CustomerStore.add(customer) + "rows");
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
-            Logger.error("stack: " + e.getStackTrace().toString());
-            return null;
+            Logger.error(e);
         }
     }
 
-    public Customer update(Customer customer) {
+    public void update(Customer customer) {
         try {
             CustomerStore.update(customer);
-            return CustomerStore.get(customer);
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
-            return null;
+            Logger.error(e);
         }
     }
 
@@ -57,7 +53,7 @@ public class CustomerService {
             this.appointmentService.deleteAllCustomersAppointments(customer);
             CustomerStore.delete(customer);
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            Logger.error(e);
         }
     }
 }

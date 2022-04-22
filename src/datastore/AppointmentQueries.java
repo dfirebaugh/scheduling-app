@@ -2,6 +2,7 @@ package datastore;
 
 
 import models.Appointment;
+import models.Customer;
 
 public class AppointmentQueries extends AbstractQuery {
     public static String get() {
@@ -41,6 +42,12 @@ public class AppointmentQueries extends AbstractQuery {
         return String.format(
             "DELETE FROM `client_schedule`.`appointments` WHERE `Appointment_ID` = %d;", 
             appointment.getId()
+        );
+    }
+    public static String deleteAllCustomersAppointments(Customer customer) {
+        return String.format(
+            "DELETE FROM `client_schedule`.`appointments` WHERE `Customer_ID` = %d;", 
+            customer.getId()
         );
     }
 }

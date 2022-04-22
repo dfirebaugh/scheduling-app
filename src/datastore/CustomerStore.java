@@ -7,7 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Customer;
 
-public class CustomerStore {
+public class CustomerStore extends AbstractStore {
     public static ObservableList<Customer> get() throws SQLException {
         ResultSet result = CustomerQueries.executeQuery(CustomerQueries.get());
 
@@ -26,22 +26,11 @@ public class CustomerStore {
     }
 
     public static Customer getByID(Customer lookup) throws SQLException {
-        ResultSet result = CustomerQueries.executeQuery(CustomerQueries.getById(lookup));
-
-        while (result.next()) {
-            return new Customer(result);
-        }
-        return null;
+        return new Customer(getFirst(CustomerQueries.executeQuery(CustomerQueries.getById(lookup))));
     }
 
     public static Customer getByName(Customer lookup) throws SQLException {
-        ResultSet result = CustomerQueries.executeQuery(CustomerQueries.getByName(lookup));
-
-        while (result.next()) {
-            return new Customer(result);
-        }
-
-        return null;
+        return new Customer(getFirst(CustomerQueries.executeQuery(CustomerQueries.getByName(lookup))));
     }
 
     public static int add(Customer customer) throws SQLException {

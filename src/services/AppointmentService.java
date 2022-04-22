@@ -13,12 +13,24 @@ public class AppointmentService {
         try {
             return AppointmentStore.get();
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            Logger.error(e);
         }
         return null;
     }
     public void add(Appointment appointment) {}
     public void update(Appointment appointment) {}
-    public void delete(Appointment appointment) {}
-    public void deleteAllCustomersAppointments(Customer customer) {}
+    public void delete(Appointment appointment) {
+        try {
+            AppointmentStore.delete(appointment);
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
+    }
+    public void deleteAllCustomersAppointments(Customer customer) {
+        try {
+            AppointmentStore.deleteAllCustomersAppointments(customer);
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
+    }
 }

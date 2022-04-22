@@ -12,7 +12,7 @@ public class AuthLogService {
                 PrintWriter out = new PrintWriter(bw)) {
             out.println(s);
         } catch (IOException e) {
-            Logger.error(e.getMessage());
+            Logger.error(e);
         }
     }
 
@@ -21,7 +21,7 @@ public class AuthLogService {
             AuthLogService.write(String.format("[%s: login-attempt] username: %s, successful: %b",
             new java.util.Date(), username, wasSuccessful));
         } catch (IOException e) {
-            Logger.error(e.getMessage());
+            Logger.error(e);
         }
     }
 }

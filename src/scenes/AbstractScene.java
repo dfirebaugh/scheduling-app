@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import services.AppointmentService;
 import services.CustomerService;
+import services.DivisionService;
 import services.Logger;
 
 public abstract class AbstractScene extends Scene {
@@ -12,10 +13,24 @@ public abstract class AbstractScene extends Scene {
     public SceneController sceneManger;
     public AppointmentService appointmentService;
     public CustomerService customerService;
+    public DivisionService divisionService;
     public String fxmlFile;
 
     public AbstractScene(GridPane p, SceneController sm, String filepath) {
         super(p);
+        initFX(p, sm, filepath);
+    }
+    public AbstractScene(GridPane p, SceneController sm, AppointmentService as, CustomerService cs, DivisionService ds, String filepath) {
+        super(p);
+        customerService = cs;
+        appointmentService = as;
+        divisionService = ds;
+        initFX(p, sm, filepath);
+    }
+    public AbstractScene(GridPane p, SceneController sm, CustomerService cs, DivisionService ds, String filepath) {
+        super(p);
+        customerService = cs;
+        divisionService = ds;
         initFX(p, sm, filepath);
     }
     public AbstractScene(GridPane p, SceneController sm, AppointmentService as, CustomerService cs, String filepath) {
