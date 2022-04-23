@@ -23,6 +23,8 @@ public class CustomerScene extends AbstractScene {
     public static final String ModifyCustomerOperation = "Modify Customer";
 
     @FXML
+    private Label toastNotification;
+    @FXML
     private Label titleLabel;
     @FXML
     private TextField idField;
@@ -66,17 +68,20 @@ public class CustomerScene extends AbstractScene {
     }
 
     public void handleSave() {
-        this.sceneManger.switchToHome();
         if (customer != null)
             customer.print();
 
         Logger.info("customer " + operationType + " operation");
+
+        if (!isValid()) return;
 
         if (operationType == AddCustomerOperation)
             handleAdd();
 
         if (operationType == ModifyCustomerOperation)
             handleModify();
+
+        this.sceneManger.switchToHome();
     }
 
     public void handleCountryUpdate() {
@@ -115,6 +120,29 @@ public class CustomerScene extends AbstractScene {
             clear();
         if (operationType == ModifyCustomerOperation)
             populateExistingCustomer(customer);
+    }
+
+    private boolean isValid() {
+        if (checkError(toastNotification, nameField.getText().length() < 1, "must have a valid name")) {
+            return false;
+        };
+        if (checkError(toastNotification, addressField.getText().length() < 1, "must have a valid address")) {
+            return false;
+        };
+        if (checkError(toastNotification, postalCodeField.getText().length() < 1, "must have a valid postalCode")) {
+            return false;
+        };
+        if (checkError(toastNotification, phoneField.getText().length() < 1, "must have a valid phone")) {
+            return false;
+        };
+        if (checkError(toastNotification, countryComboBox.getValue() == null, "must have a valid country")) {
+            return false;
+        };
+        if (checkError(toastNotification, divisionComboBox.getValue() == null, "must have a valid division")) {
+            return false;
+        };
+
+        return true;
     }
 
     private void populateExistingCustomer(Customer customer) {
