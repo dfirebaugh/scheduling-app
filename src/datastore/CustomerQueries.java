@@ -8,14 +8,15 @@ import java.time.ZoneId;
 import models.Customer;
 
 public class CustomerQueries extends AbstractQuery {
+    public static final String modifiedBy = "scheduling-app";
     public static String get() {
-        return String.format("SELECT * FROM customers;");
-    }
+        return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID`;");
+        }
     public static String getById(Customer lookup) {
-        return String.format("SELECT * FROM customers WHERE `Customer_ID` = %d;", lookup.getId());
+        return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID` WHERE `Customer_ID` = %d;", lookup.getId());
     }
     public static String getByName(Customer lookup) {
-        return String.format("SELECT * FROM customers WHERE `Customer_Name` = '%s';", lookup.getName());
+        return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID` WHERE `Customer_Name` = '%s';", lookup.getName());
     }
     public static String add(Customer customer) {
         return String.format(
@@ -24,9 +25,10 @@ public class CustomerQueries extends AbstractQuery {
             customer.getAddress(), customer.getPostalCode(),
             customer.getPhone(),
             getDate(),
-            customer.getCreatedBy(),
+            modifiedBy,
             getTimeStamp(),
-            customer.getLastUpdatedBy(), customer.getDivisionID());
+            modifiedBy, 
+            customer.getDivisionID());
     }
     public static String update(Customer update) {
         return String.format(
@@ -35,9 +37,9 @@ public class CustomerQueries extends AbstractQuery {
             update.getAddress(),
             update.getPostalCode(),
             update.getPhone(),
-            update.getCreatedBy(),
+            modifiedBy,
             getTimeStamp(),
-            update.getLastUpdatedBy(),
+            modifiedBy,
             update.getDivisionID(),
             update.getId());
     }

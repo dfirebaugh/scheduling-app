@@ -7,7 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Division;
 
-public class DivisionStore {
+public class DivisionStore extends AbstractStore {
     public static ObservableList<Division> get() throws SQLException {
         ResultSet result = DivisionQueries.executeQuery(DivisionQueries.get());
 
@@ -25,5 +25,8 @@ public class DivisionStore {
             divisions.add(new Division(result));
         }
         return divisions;
+    }
+    public static Division getOne(Integer divisionID) throws SQLException {
+        return new Division(getFirst(DivisionQueries.executeQuery(DivisionQueries.getOne(divisionID))));
     }
 }

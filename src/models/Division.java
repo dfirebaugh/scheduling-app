@@ -68,7 +68,7 @@ public class Division {
     /**
      * @return the id
      */
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 

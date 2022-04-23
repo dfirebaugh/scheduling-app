@@ -6,8 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import models.Customer;
+import services.ServiceSubscriber;
 
-public class TableUpdater<S> {
+public class TableUpdater<S> implements ServiceSubscriber<S> {
     TableView<S> tableElement;
     TableUpdater(TableView<S> tableElement) {
         this.tableElement = tableElement;
@@ -26,6 +28,7 @@ public class TableUpdater<S> {
      * add the columns to the table
      */
     public void initColumns(Stream<String> keys) {
+        this.tableElement.getColumns().clear();
         this.tableElement.getColumns().addAll(keys.flatMap(key -> Stream.of(columnFactory(key))).toList());
     }
 
@@ -33,8 +36,19 @@ public class TableUpdater<S> {
      * requestUpdate
      * refreshes the values in the table
      */
-    public void requestUpdate(ObservableList<S> items) {
+    public ObservableList<S> requestUpdate(ObservableList<S> items) {
         this.tableElement.setItems(items);
         this.tableElement.refresh();
+
+        return items;
     }
+
+    public static <T> boolean isNullSelection(TableView<T> table) {
+        return getSelected(table) == null;
+    }
+
+    public static <T> T getSelected(TableView<T> table) {
+        return table.getSelectionModel().getSelectedItem();
+    }
+
 }

@@ -7,7 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Country;
 
-public class CountryStore {
+public class CountryStore extends AbstractStore {
     public static ObservableList<Country> get() throws SQLException {
         ResultSet result = CountryQueries.executeQuery(CountryQueries.get());
 
@@ -16,5 +16,8 @@ public class CountryStore {
             countries.add(new Country(result));
         }
         return countries;
+    }
+    public static Country get(Integer countryID) throws SQLException {
+        return new Country(getFirst(CountryQueries.executeQuery(CountryQueries.get(countryID))));
     }
 }

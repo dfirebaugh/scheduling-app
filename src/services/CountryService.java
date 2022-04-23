@@ -15,4 +15,12 @@ public class CountryService {
             return null;
         }
     }
+    public Country get(Integer countryID) {
+        try {
+            return CountryStore.get(countryID);
+        } catch (SQLException e) {
+            Logger.error(e);
+            return null;
+        }
+    }
 }

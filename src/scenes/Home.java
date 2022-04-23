@@ -1,5 +1,7 @@
 package scenes;
 
+import java.util.concurrent.TimeUnit;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -10,6 +12,8 @@ import services.AppointmentService;
 import services.CustomerService;
 
 public class Home extends AbstractScene {
+    private static final String fxmlFilePath = "Home.fxml";
+
     @FXML
     private TableView<Appointment> monthAppointmentTable;
     @FXML
@@ -24,54 +28,53 @@ public class Home extends AbstractScene {
     private Label toastNotification;
 
     public Home(GridPane p, SceneController sm, AppointmentService as, CustomerService cs) {
-        super("Home.fxml", p, sm, as, cs);
-        requestUpdate();
+        super(fxmlFilePath, p, sm, as, cs);
+        initTables();
+
     }
 
     private void initTables() {
-        customerTableUpdater = new TableUpdater<Customer>(customerTable);
-        customerTableUpdater.initColumns(Customer.getKeys());
         monthAppointmentTableUpdater = new TableUpdater<Appointment>(monthAppointmentTable);
         monthAppointmentTableUpdater.initColumns(Appointment.getKeys());
-    }
+        appointmentService.registerListener(monthAppointmentTableUpdater);
+        appointmentService.get();
 
-    public void requestUpdate() {
-        initTables();
-        monthAppointmentTableUpdater.requestUpdate(appointmentService.get());
-        customerTableUpdater.requestUpdate(customerService.get());
+        customerTableUpdater = new TableUpdater<Customer>(customerTable);
+        customerTableUpdater.initColumns(Customer.getKeys());
+        customerService.registerListener(customerTableUpdater);
+        customerService.get();
     }
 
     public void handleAddAppointment() {
-        this.sceneManger.switchToAppointment("Add Appointment");
+        this.sceneManger.switchToAppointment();
     }
 
     public void handleModifyAppointment() {
-        if (checkError(toastNotification, monthAppointmentTable.getSelectionModel().getSelectedItem() == null,
+        if (checkError(toastNotification, TableUpdater.getSelected(monthAppointmentTable) == null,
                 "you must select an appointment to modify"))
             return;
-        this.sceneManger.switchToAppointment("Edit Appointment",
-                monthAppointmentTable.getSelectionModel().getSelectedItem());
+        this.sceneManger.switchToAppointment(AppointmentScene.ModifyAppointmentOperation,
+                TableUpdater.getSelected(monthAppointmentTable));
     }
 
     public void handleMonthDeleteAppointment() {
-        Appointment selected = monthAppointmentTable.getSelectionModel().getSelectedItem();
-        if (checkError(toastNotification, monthAppointmentTable.getSelectionModel().getSelectedItem() == null,
-                "you must select an appointment to delete"))
+        Appointment selected = TableUpdater.getSelected(monthAppointmentTable);
+        if (checkError(toastNotification, TableUpdater.isNullSelection(monthAppointmentTable), "you must select an appointment to delete"))
             return;
         this.appointmentService.delete(selected);
         sendNotification(toastNotification, "Appointment " + selected.getId() + " has been deleted");
-        requestUpdate();
     }
 
     public void handleAddCustomer() {
-        this.sceneManger.switchToCustomer("Add Customer");
+        this.sceneManger.switchToCustomer();
     }
 
     public void handleModifyCustomer() {
-        if (checkError(toastNotification, customerTable.getSelectionModel().getSelectedItem() == null,
-                "you must select a customer to modify"))
+        if (checkError(toastNotification, TableUpdater.isNullSelection(customerTable), "you must select a customer to modify"))
             return;
-        this.sceneManger.switchToCustomer("Edit Customer", customerTable.getSelectionModel().getSelectedItem());
+        TableUpdater.getSelected(customerTable).print();
+        this.sceneManger.switchToCustomer(TableUpdater.getSelected(customerTable),
+                CustomerScene.ModifyCustomerOperation);
     }
 
     public void handleLogout() {
@@ -79,11 +82,10 @@ public class Home extends AbstractScene {
     }
 
     public void handleDeleteCustomer() {
-        Customer selected = customerTable.getSelectionModel().getSelectedItem();
+        Customer selected = TableUpdater.getSelected(customerTable);
         if (checkError(toastNotification, selected == null, "you must select a customer to delete"))
             return;
         this.customerService.delete(selected);
         sendNotification(toastNotification, "Customer " + selected.getId() + " has been deleted");
-        requestUpdate();
     }
 }

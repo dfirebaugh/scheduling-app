@@ -8,17 +8,30 @@ import models.Appointment;
 import models.Customer;
 
 public class AppointmentService {
-    public AppointmentService() {}
+    public AppointmentService() {
+    }
+
+    public ServiceSubscriber<Appointment> listener;
+
+    public void registerListener(ServiceSubscriber<Appointment> listener) {
+        this.listener = listener;
+    }
+
     public ObservableList<Appointment> get() {
         try {
-            return AppointmentStore.get();
+            return listener.requestUpdate(AppointmentStore.get());
         } catch (SQLException e) {
             Logger.error(e);
         }
         return null;
     }
-    public void add(Appointment appointment) {}
-    public void update(Appointment appointment) {}
+
+    public void add(Appointment appointment) {
+    }
+
+    public void update(Appointment appointment) {
+    }
+
     public void delete(Appointment appointment) {
         try {
             AppointmentStore.delete(appointment);
@@ -26,6 +39,7 @@ public class AppointmentService {
             Logger.error(e);
         }
     }
+
     public void deleteAllCustomersAppointments(Customer customer) {
         try {
             AppointmentStore.deleteAllCustomersAppointments(customer);

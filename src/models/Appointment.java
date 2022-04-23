@@ -26,6 +26,8 @@ public class Appointment {
     private Integer userID;
     private Integer contactID;
 
+    public Appointment() {}
+
     public Appointment(int id, String title, String description, String location, String type, Date start, Date end,
             Date createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int customerID, int userID,
             int contactID) {

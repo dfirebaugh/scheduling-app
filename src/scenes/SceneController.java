@@ -32,11 +32,11 @@ public class SceneController {
     }
 
     private void initServices() {
-        this.userService = new UserService();
-        this.appointmentService = new AppointmentService();
-        this.divisionService = new DivisionService();
-        this.countryService = new CountryService();
-        this.customerService = new CustomerService(new AppointmentService());
+        userService = new UserService();
+        appointmentService = new AppointmentService();
+        divisionService = new DivisionService();
+        countryService = new CountryService();
+        customerService = new CustomerService(appointmentService);
     }
 
     private void initStage(Stage ps){
@@ -66,25 +66,22 @@ public class SceneController {
         this.setScene(loginScene);
     }
     public void switchToHome() {
-        homeScene.requestUpdate();
         this.setScene(homeScene);
     }
-    public void switchToAppointment(String mode) {
-        appointmentScene.setMode(mode);
+    public void switchToAppointment() {
+        appointmentScene.setCurrentAppointment(new Appointment(), AppointmentScene.AddAppointmentOperation);
         this.setScene(appointmentScene);
     }
-    public void switchToAppointment(String mode, Appointment appointment) {
-        appointmentScene.setMode(mode);
-        appointmentScene.setCurrentAppointment(appointment);
+    public void switchToAppointment(String operationType, Appointment appointment) {
+        appointmentScene.setCurrentAppointment(appointment, operationType);
         this.setScene(appointmentScene);
     }
-    public void switchToCustomer(String mode) {
-        customerScene.setMode(mode);
+    public void switchToCustomer() {
+        customerScene.setCurrentCustomer(new Customer(), CustomerScene.AddCustomerOperation);
         this.setScene(customerScene);
     }
-    public void switchToCustomer(String mode, Customer customer) {
-        customerScene.setMode(mode);
-        customerScene.setCurrentCustomer(customer);
+    public void switchToCustomer(Customer customer, String operationType) {
+        customerScene.setCurrentCustomer(customer, operationType);
         this.setScene(customerScene);
     }
 

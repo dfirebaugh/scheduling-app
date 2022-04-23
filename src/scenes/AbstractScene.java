@@ -17,9 +17,8 @@ public abstract class AbstractScene extends Scene {
     public CustomerService customerService;
     public DivisionService divisionService;
     public CountryService countryService;
-    public String fxmlFile;
 
-    public String mode;
+    public String operationType;
 
     public AbstractScene(GridPane p, SceneController sm, String filepath) {
         super(p);
@@ -63,27 +62,26 @@ public abstract class AbstractScene extends Scene {
     }
 
     private void initFX(GridPane p, SceneController sm, String filepath) {
-        fxmlFile = filepath;
         parent = p;
         sceneManger = sm;
         parent.setMinWidth(300);
         parent.setMinHeight(275);
 
         try {
-            load(parent);
+            load(parent, filepath);
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }
     }
 
-    private void load(GridPane parent) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+    private void load(GridPane parent, String filepath) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(filepath));
         loader.setController(this);
         parent.add(loader.load(), 0, 0);
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 
     public boolean checkError(Label toastNotification, boolean expression, String errorMessage) {

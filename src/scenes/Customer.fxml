@@ -32,7 +32,7 @@
         </rowConstraints>
          <children>
             <Label text="CustomerID" />
-            <TextField disable="true" GridPane.columnIndex="1" />
+            <TextField fx:id="idField" disable="true" GridPane.columnIndex="1" />
             <Label text="Name" GridPane.rowIndex="1" />
             <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Address" GridPane.rowIndex="2" />

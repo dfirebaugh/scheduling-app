@@ -19,11 +19,13 @@ public class CustomerScene extends AbstractScene {
     private static final String fxmlFilePath = "Customer.fxml";
     private Customer customer;
 
-    private final String addCustomerOperation = "Add Customer";
-    private final String modifyCustomerOperation = "Modify Customer";
+    public static final String AddCustomerOperation = "Add Customer";
+    public static final String ModifyCustomerOperation = "Modify Customer";
 
     @FXML
     private Label titleLabel;
+    @FXML
+    private TextField idField;
     @FXML
     private TextField nameField;
     @FXML
@@ -37,24 +39,26 @@ public class CustomerScene extends AbstractScene {
     @FXML
     private ComboBox<Country> countryComboBox;
 
-    public CustomerScene(GridPane gridPane, SceneController sceneController, CustomerService customerService, DivisionService divisionService, CountryService countryService) {
-        super("Customer.fxml", gridPane, sceneController, customerService, divisionService, countryService);
+    public CustomerScene(GridPane gridPane, SceneController sceneController, CustomerService customerService,
+            DivisionService divisionService, CountryService countryService) {
+        super(fxmlFilePath, gridPane, sceneController, customerService, divisionService, countryService);
 
         populateCountryComboBox();
-        populateDivisionComboBox();
     }
 
     private void populateCountryComboBox() {
         countryComboBox.getItems().clear();
         countryComboBox.getItems().addAll(countryService.get().stream().collect(Collectors.toList()));
     }
+
     private void populateDivisionComboBox() {
         Country selectedCountry = countryComboBox.getValue();
         if (selectedCountry == null) {
             return;
         }
         divisionComboBox.getItems().clear();
-        divisionComboBox.getItems().addAll(divisionService.get(selectedCountry.getID()).stream().collect(Collectors.toList()));
+        divisionComboBox.getItems()
+                .addAll(divisionService.get(selectedCountry.getID()).stream().collect(Collectors.toList()));
     }
 
     public void handleClose() {
@@ -66,12 +70,12 @@ public class CustomerScene extends AbstractScene {
         if (customer != null)
             customer.print();
 
-        Logger.info("customer " + mode + " operation");
+        Logger.info("customer " + operationType + " operation");
 
-        if (mode == addCustomerOperation)
+        if (operationType == AddCustomerOperation)
             handleAdd();
 
-        if (mode == modifyCustomerOperation)
+        if (operationType == ModifyCustomerOperation)
             handleModify();
     }
 
@@ -81,9 +85,6 @@ public class CustomerScene extends AbstractScene {
 
     private void handleAdd() {
         Division selected = divisionComboBox.getValue();
-        Logger.info(selected.toString());
-        Logger.info("id: " + selected.getId());
-
         Customer toAdd = new Customer(nameField.getText(), addressField.getText(), postalCodeField.getText(),
                 phoneField.getText(), selected.getId());
         toAdd.print();
@@ -91,24 +92,48 @@ public class CustomerScene extends AbstractScene {
     }
 
     private void handleModify() {
-        Customer toModify = new Customer(customer.getId(), nameField.getText(), addressField.getText(),
-                postalCodeField.getText(), phoneField.getText());
+        Customer toModify = new Customer(
+            customer.getId(), 
+            nameField.getText(), 
+            addressField.getText(),
+            postalCodeField.getText(),
+            phoneField.getText(),
+            divisionComboBox.getSelectionModel().getSelectedItem().getId()
+            );
         toModify.print();
         this.customerService.update(toModify);
     }
 
-    public void setCurrentCustomer(Customer customer) {
+    public void setCurrentCustomer(Customer customer, String operationType) {
+        Logger.info(operationType);
+
+        this.operationType = operationType;
+
+        titleLabel.setText(operationType);
         this.customer = customer;
+        if (operationType == AddCustomerOperation)
+            clear();
+        if (operationType == ModifyCustomerOperation)
+            populateExistingCustomer(customer);
+    }
+
+    private void populateExistingCustomer(Customer customer) {
+        idField.setText(customer.getId().toString());
+        nameField.setText(customer.getName());
+        addressField.setText(customer.getAddress());
+        postalCodeField.setText(customer.getPostalCode());
+        phoneField.setText(customer.getPhone());
+        countryComboBox.setValue(countryService.get(divisionService.getOne(customer.getDivisionID()).getCountryID()));
+        divisionComboBox.setValue(divisionService.getOne(customer.getDivisionID()));
     }
 
     public void clear() {
-        setCurrentCustomer(new Customer());
-        titleLabel.setText("");
+        idField.setText("");
         nameField.setText("");
         addressField.setText("");
         postalCodeField.setText("");
         phoneField.setText("");
-        phoneField.setText("");
-        populateDivisionComboBox();
+        populateCountryComboBox();
+        divisionComboBox.setValue(null);
     }
 }

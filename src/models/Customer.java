@@ -20,6 +20,8 @@ public class Customer {
     private Timestamp lastUpdated;
     private String lastUpdatedBy;
     private Integer divisionID;
+    private String country;
+    private String division;
 
     public Customer(int id) {
         this.id = id;
@@ -29,29 +31,17 @@ public class Customer {
         this.name = name;
     }
 
-    public Customer(
-            Integer id,
-            String name,
-            String address,
-            String postalCode,
-            String phone,
-            Date createDate,
-            String createdBy,
-            Timestamp lastUpdated,
-            String lastUpdatedBy,
-            Integer divisionID) {
+    public Customer(Integer id, String name, String address, String postalCode, String phone, Integer divisionID) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdated = lastUpdated;
-        this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
     }
-    public Customer() {}
+
+    public Customer() {
+    }
 
     public Customer(String name, String address, String postalCode, String phone, Integer divisionID) {
         this.name = name;
@@ -85,38 +75,26 @@ public class Customer {
             this.lastUpdated = result.getTimestamp("Last_Update");
             this.lastUpdatedBy = result.getString("Last_Updated_By");
             this.divisionID = result.getInt("Division_ID");
+            this.country = result.getString("Country");
+            this.division = result.getString("Division");
         } catch (SQLException e) {
             Logger.error("SQLException: " + e.getMessage());
         }
     }
 
     public void print() {
-        Logger.info(
-                id + " " +
-                name + " " +
-                address + " " +
-                postalCode + " " +
-                phone + " " +
-                createDate + " " +
-                createdBy + " " +
-                lastUpdated + " " +
-                lastUpdatedBy + " " +
-                divisionID);
+        Logger.info(toString());
+    }
+
+    public String toString() {
+        return String.format(
+                "id: %s, name: %s, address: %s, postalCode: %s, phone: %s, createDate: %s, createdBy: %s, lastUpdated: %s, lastUpdatedBy: %s, divisionID: %s, country: %s, division: %s",
+                id, name, address, postalCode, phone, createDate, createdBy, lastUpdated, lastUpdatedBy, divisionID, country, division);
     }
 
     public static Stream<String> getKeys() {
-        String[] keys = { 
-            "id",
-            "name",
-            "address",
-            "postalCode",
-            "phone",
-            "createDate",
-            "createdBy",
-            "lastUpdated",
-            "lastUpdatedBy",
-            "divisionID"
-        };
+        String[] keys = { "id", "name", "address", "postalCode", "phone", "createDate", "createdBy", "lastUpdated",
+                "lastUpdatedBy", "divisionID", "country", "division" };
         return Arrays.stream(keys);
     }
 
@@ -126,9 +104,11 @@ public class Customer {
     public Integer getId() {
         return id;
     }
+
     public String getIdProperty() {
         return id.toString();
     }
+
     public String getName() {
         return this.name;
     };
@@ -164,8 +144,16 @@ public class Customer {
     public Integer getDivisionID() {
         return this.divisionID;
     };
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public String getDivision() {
+        return this.division;
+    }
+
     public String getDivisionIDProperty() {
         return this.divisionID.toString();
     };
-
 }

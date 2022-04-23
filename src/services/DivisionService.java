@@ -23,4 +23,12 @@ public class DivisionService {
             return null;
         }
     }
+    public Division getOne(Integer divisionID) {
+        try {
+            return DivisionStore.getOne(divisionID);
+        } catch (SQLException e) {
+            Logger.error(e);
+            return null;
+        }
+    }
 }

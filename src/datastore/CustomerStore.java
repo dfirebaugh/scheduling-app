@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Customer;
+import services.Logger;
 
 public class CustomerStore extends AbstractStore {
     public static ObservableList<Customer> get() throws SQLException {
@@ -38,7 +39,9 @@ public class CustomerStore extends AbstractStore {
     }
 
     public static int update(Customer update) throws SQLException {
-        return CustomerQueries.executeUpdate(CustomerQueries.update(update));
+        String query = CustomerQueries.update(update);
+        Logger.info(query);
+        return CustomerQueries.executeUpdate(query);
     }
 
     public static int delete(Customer customer) throws SQLException {
