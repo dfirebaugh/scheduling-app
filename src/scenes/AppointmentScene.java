@@ -1,5 +1,7 @@
 package scenes;
 
+import java.sql.Timestamp;
+
 import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
@@ -50,6 +52,9 @@ public class AppointmentScene extends AbstractScene {
     @FXML
     private Label titleLabel;
 
+    @FXML
+    private Label toastNotification;
+
     public Appointment currentAppointment;
 
     private void populateContactSelector() {
@@ -78,6 +83,9 @@ public class AppointmentScene extends AbstractScene {
     }
 
     public void handleSave() {
+        if (!isValid())
+            return;
+
         if (operationType == AddAppointmentOperation)
             addAppointment();
         if (operationType == ModifyAppointmentOperation)
@@ -86,16 +94,21 @@ public class AppointmentScene extends AbstractScene {
     }
 
     private void addAppointment() {
+        Timestamp start = java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
+        Timestamp end = java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
+
         appointmentService.add(new Appointment(titleField.getText(), descriptionField.getText(),
-                locationField.getText(), typeField.getText(), startDateField.getText(), startTimeField.getText(),
-                endDateField.getText(), endTimeField.getText(), contactSelector.getValue().getID(),
-                customerSelector.getValue().getID()));
+                locationField.getText(), typeField.getText(), start, end, customerSelector.getValue().getID(),
+                contactSelector.getValue().getID()));
     }
+
     private void updateAppointment() {
-        appointmentService.update(new Appointment(currentAppointment.getID(), titleField.getText(), descriptionField.getText(),
-                locationField.getText(), typeField.getText(), startDateField.getText(), startTimeField.getText(),
-                endDateField.getText(), endTimeField.getText(), contactSelector.getValue().getID(),
-                customerSelector.getValue().getID()));
+        Timestamp start = java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
+        Timestamp end = java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
+
+        appointmentService.update(new Appointment(currentAppointment.getID(), titleField.getText(),
+                descriptionField.getText(), locationField.getText(), typeField.getText(), start, end,
+                customerSelector.getValue().getID(), contactSelector.getValue().getID()));
     }
 
     public void setCurrentAppointment(Appointment appointment, String operationType) {
@@ -108,9 +121,42 @@ public class AppointmentScene extends AbstractScene {
             populateExistingAppointment(appointment);
     }
 
+    private boolean isValid() {
+        if (checkError(toastNotification, titleField.getText().length() < 1, "must have a valid title")) {
+            return false;
+        }
+        if (checkError(toastNotification, descriptionField.getText().length() < 1, "must have a valid desription")) {
+            return false;
+        }
+        if (checkError(toastNotification, locationField.getText().length() < 1, "must have a valid location")) {
+            return false;
+        }
+        if (checkError(toastNotification, typeField.getText().length() < 1, "must have a valid type")) {
+            return false;
+        }
+        if (checkError(toastNotification, startDateField.getText().length() < 1, "must have a valid start date")) {
+            return false;
+        }
+        if (checkError(toastNotification, startTimeField.getText().length() < 1, "must have a valid start time")) {
+            return false;
+        }
+        if (checkError(toastNotification, endDateField.getText().length() < 1, "must have a valid end date")) {
+            return false;
+        }
+        if (checkError(toastNotification, endTimeField.getText().length() < 1, "must have a valid end time")) {
+            return false;
+        }
+        if (checkError(toastNotification, contactSelector.getValue() == null, "must have a valid contact selected")) {
+            return false;
+        }
+        if (checkError(toastNotification, customerSelector.getValue() == null, "must have a valid customer selected")) {
+            return false;
+        }
+
+        return true;
+    }
+
     private void populateExistingAppointment(Appointment appointment) {
-        contactSelector.setValue(contactService.get(appointment.getContactID()));
-        customerSelector.setValue(customerService.get(appointment.getCustomerID()));
         appointmentIDField.setText(appointment.getID().toString());
         titleField.setText(appointment.getTitle());
         descriptionField.setText(appointment.getDescription());
@@ -120,6 +166,8 @@ public class AppointmentScene extends AbstractScene {
         startTimeField.setText(appointment.getStartTime());
         endDateField.setText(appointment.getEndDate());
         endTimeField.setText(appointment.getEndTime());
+        contactSelector.setValue(contactService.get(appointment.getContactID()));
+        customerSelector.setValue(customerService.get(appointment.getCustomerID()));
     }
 
     public void clear() {

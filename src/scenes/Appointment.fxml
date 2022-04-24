@@ -34,7 +34,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="AppoitmentID" />
+            <Label fx:id="toastNotification" text="AppoitmentID" />
             <TextField fx:id="appointmentIDField" disable="true" GridPane.columnIndex="1" />
             <Label text="Title" GridPane.rowIndex="1" />
             <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -43,19 +43,19 @@
             <Label text="Location" GridPane.rowIndex="3" />
             <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Customer" GridPane.rowIndex="4" />
-            <ComboBox fx:id="customerSelector" prefWidth="150.0" promptText="Contact" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="customerSelector" prefWidth="150.0" promptText="Customer" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Contact" GridPane.rowIndex="5" />
             <ComboBox fx:id="contactSelector" prefWidth="150.0" promptText="Contact" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label text="Type" GridPane.rowIndex="6" />
             <TextField fx:id="typeField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label text="Start Date" GridPane.rowIndex="7" />
-            <TextField fx:id="startDateField" promptText="MM/DD/YY" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="startDateField" promptText="YYYY-MM-DD" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Start Time" GridPane.rowIndex="8" />
-            <TextField fx:id="startTimeField" promptText="HH:MM" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="startTimeField" promptText="HH:MM 24-hour" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label text="End Date" GridPane.rowIndex="9" />
-            <TextField fx:id="endDateField" promptText="MM/DD/YY" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextField fx:id="endDateField" promptText="YYYY-MM-DD" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label text="End Time" GridPane.rowIndex="10" />
-            <TextField fx:id="endTimeField" promptText="HH:MM" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <TextField fx:id="endTimeField" promptText="HH:MM 24-hour" GridPane.columnIndex="1" GridPane.rowIndex="10" />
          </children>
       </GridPane>
    </center>

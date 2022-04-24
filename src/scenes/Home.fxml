@@ -39,7 +39,7 @@
                      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="1064.0" tabClosingPolicy="UNAVAILABLE">
                         <tabs>
                            <Tab text="Month View">
-                              <TableView fx:id="monthAppointmentTable" prefHeight="274.0" prefWidth="1065.0" BorderPane.alignment="CENTER" />
+                              <TableView fx:id="appointmentTable" prefHeight="274.0" prefWidth="1065.0" BorderPane.alignment="CENTER" />
                            </Tab>
                            <Tab text="Week View">
                               <TableView fx:id="weekAppointmentTable" prefHeight="246.0" prefWidth="629.0" BorderPane.alignment="CENTER" />

@@ -1,5 +1,9 @@
 package datastore;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import models.Appointment;
 import models.Customer;
@@ -19,9 +23,10 @@ public class AppointmentQueries extends AbstractQuery {
             "INSERT INTO `client_schedule`.`appointments` (`Title`,`Description`,`Location`,`Type`,`Start`,`End`,`Create_Date`,`Created_By`,`Last_Update`,`Last_Updated_By`,`Customer_ID`,`User_ID`,`Contact_ID`) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');", 
             appointment.getTitle(),
             appointment.getDescription(), appointment.getLocation(),
-            appointment.getType(), appointment.getStart(),
-            appointment.getEnd(), appointment.getCreateDate(),
-            appointment.getCreatedBy(), appointment.getLastUpdated(),
+            appointment.getType(), appointment.getStartUTC(),
+            appointment.getEndUTC(), getDate(),
+            "scheduling-app", getTimeStamp(),
+            "scheduling-app",
             appointment.getCustomerID(), appointment.getUserID(),
             appointment.getContactID()
         );
@@ -31,9 +36,10 @@ public class AppointmentQueries extends AbstractQuery {
             "UPDATE `client_schedule`.`appointments` SET `Title` = '%s', `Description` = '%s', `Location` = '%s', `Type` = '%s', `Start` = '%s', `End` = '%s', `Create_Date` = '%s', `Created_By` = '%s', `Last_Update` = '%s', `Last_Updated_By` = '%s', `Customer_ID` = '%s', `User_ID` = '%s', `Contact_ID` = '%s' WHERE `Appointment_ID` = '%d';", 
             update.getTitle(),
             update.getDescription(), update.getLocation(),
-            update.getType(), update.getStart(),
-            update.getEnd(), update.getCreateDate(),
-            update.getCreatedBy(), update.getLastUpdated(),
+            update.getType(), update.getStartUTC(),
+            update.getEndUTC(), getDate(),
+            "scheduling-app", getTimeStamp(),
+            "scheduling-app",
             update.getCustomerID(), update.getUserID(),
             update.getContactID(), update.getID()
         );
@@ -49,5 +55,17 @@ public class AppointmentQueries extends AbstractQuery {
             "DELETE FROM `client_schedule`.`appointments` WHERE `Customer_ID` = %d;", 
             customer.getID()
         );
+    }
+
+    public static java.sql.Timestamp getTimeStamp() {
+        ZoneId zoneid = ZoneId.of("UTC");
+        LocalDateTime localDateTime = LocalDateTime.now(zoneid);
+        java.sql.Timestamp timeStamp = Timestamp.valueOf(localDateTime);
+        return timeStamp;
+    }
+
+    public static java.sql.Date getDate() {
+        java.sql.Date date = java.sql.Date.valueOf(LocalDate.now());
+        return date;
     }
 }

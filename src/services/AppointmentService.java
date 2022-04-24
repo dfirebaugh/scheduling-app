@@ -27,14 +27,27 @@ public class AppointmentService {
     }
 
     public void add(Appointment appointment) {
+        try {
+            AppointmentStore.add(appointment);
+            listener.requestUpdate(AppointmentStore.get());
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
     }
 
     public void update(Appointment appointment) {
+        try {
+            AppointmentStore.update(appointment);
+            listener.requestUpdate(AppointmentStore.get());
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
     }
 
     public void delete(Appointment appointment) {
         try {
             AppointmentStore.delete(appointment);
+            listener.requestUpdate(AppointmentStore.get());
         } catch (SQLException e) {
             Logger.error(e);
         }
@@ -43,6 +56,7 @@ public class AppointmentService {
     public void deleteAllCustomersAppointments(Customer customer) {
         try {
             AppointmentStore.deleteAllCustomersAppointments(customer);
+            listener.requestUpdate(AppointmentStore.get());
         } catch (SQLException e) {
             Logger.error(e);
         }

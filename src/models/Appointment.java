@@ -2,19 +2,18 @@ package models;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
-// import javafx.beans.property.SimpleStringProperty;
-// import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
 
-import java.util.TimeZone;
-
 import services.Logger;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -37,9 +36,9 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
-    private Date createDate;
+    private Timestamp start;
+    private Timestamp end;
+    private Timestamp createDate;
     private String createdBy;
     private Timestamp lastUpdated;
     private String lastUpdatedBy;
@@ -50,8 +49,8 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(int id, String title, String description, String location, String type, Date start, Date end,
-            Date createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int customerID, int userID,
+    public Appointment(int id, String title, String description, String location, String type, Timestamp start, Timestamp end,
+            Timestamp createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int customerID, int userID,
             int contactID) {
         setID(id);
         this.title = title;
@@ -69,8 +68,7 @@ public class Appointment {
         this.contactID = contactID;
     }
 
-    public Appointment(Integer id, String title, String description, String location, String type, String startDate,
-            String startTime, String endDate, String endTime, Integer customerID, Integer contactID) {
+    public Appointment(Integer id, String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer contactID) {
         setID(id);
         this.title = title;
         this.description = description;
@@ -78,47 +76,20 @@ public class Appointment {
         this.type = type;
         this.customerID = customerID;
         this.contactID = contactID;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Logger.info(startDate + " " + startTime);
-
-        try {
-            java.util.Date parsedStart = sdf.parse(sdf.format(startDate + " " + startTime));
-            java.util.Date parsedEnd = sdf.parse(sdf.format(endDate + " " + endTime));
-            this.start = new Date(parsedStart.getTime());
-            this.end = new Date(parsedEnd.getTime());
-        } catch (java.text.ParseException e) {
-            Logger.error(e);
-        }
+        this.start = start;
+        this.end = end;
         // this.userID = userID;
     }
 
-    public Appointment(String title, String description, String location, String type, String startDate,
-            String startTime, String endDate, String endTime, Integer customerID, Integer contactID) {
+    public Appointment(String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer contactID) {
         this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
         this.customerID = customerID;
         this.contactID = contactID;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Logger.info(startDate + " " + startTime);
-        String dateString = "2020-05-29 12:00";
-        Logger.info(dateString);
-        java.util.Date parsedStart;
-        java.util.Date parsedEnd;
-        try {
-            parsedStart = sdf.parse(sdf.format(dateString));
-            parsedEnd = sdf.parse(sdf.format(dateString));
-        } catch (java.text.ParseException e) {
-            Logger.error(e);
-            return;
-        }
-        this.start = new Date(parsedStart.getTime());
-        this.end = new Date(parsedEnd.getTime());
+        this.start = start;
+        this.end = end;
         // this.userID = userID;
     }
 
@@ -129,9 +100,9 @@ public class Appointment {
             this.description = result.getString("Description");
             this.location = result.getString("Location");
             this.type = result.getString("Type");
-            this.start = result.getDate("Start");
-            this.end = result.getDate("End");
-            this.createDate = result.getDate("Create_Date");
+            this.start = result.getTimestamp("Start");
+            this.end = result.getTimestamp("End");
+            this.createDate = result.getTimestamp("Create_Date");
             this.createdBy = result.getString("Created_By");
             this.lastUpdated = result.getTimestamp("Last_Update");
             this.lastUpdatedBy = result.getString("Last_Updated_By");
@@ -171,48 +142,35 @@ public class Appointment {
         return type;
     }
 
-    public Date getStart() {
-        return start;
-    }
-
-    public String getStartDate() {
-        return start.toString();
-    }
-
-    public String getStartTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        try {
-            return sdf.parse(sdf.format(start)).toString();
-        } catch (java.text.ParseException e) {
-            Logger.error(e);
-        }
-
-        return null;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public String getEndDate() {
-        return end.toString();
-    }
-
-    public String getEndTime() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        try {
-            return sdf.parse(sdf.format(end)).toString();
-        } catch (java.text.ParseException e) {
-            Logger.error(e);
-        }
-        return null;
-    }
-
     public String getCreateDate() {
-        return createDate.toLocalDate().toString();
+        return formatDateTime(createDate);
+    }
+
+    public String getStart() {
+        return formatDateTime(start);
+    }
+    public String getStartDate() {
+        return formatDate(start);
+    }
+    public String getStartTime() {
+        return formatTime(start);
+    }
+    public String getEndDate() {
+        return formatDate(end);
+    }
+    public String getEndTime() {
+        return formatTime(end);
+    }
+
+    public String getStartUTC() {
+        return formatDateTimeUTC(start);
+    }
+    public String getEndUTC() {
+        return formatDateTimeUTC(end);
+    }
+
+    public String getEnd() {
+        return formatDateTime(end);
     }
 
     public String getCreatedBy() {
@@ -220,7 +178,7 @@ public class Appointment {
     }
 
     public String getLastUpdated() {
-        return lastUpdated.toString();
+        return formatDateTime(lastUpdated);
     }
 
     public String getLastUpdatedBy() {
@@ -232,10 +190,30 @@ public class Appointment {
     }
 
     public String getUserID() {
-        return userID.toString();
+        return "1";//userID.toString();
     }
 
     public Integer getContactID() {
         return contactID;
+    }
+
+    private String formatDateTime(Timestamp timestamp) {
+        DateFormat format = new SimpleDateFormat( "yyyy-MM-dd HH:mm" );
+        return format.format( timestamp );
+    }
+    private String formatDateTimeUTC(Timestamp timestamp) {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        ZonedDateTime z = timestamp.toInstant().atZone(ZoneId.of("UTC"));
+
+        return z.format(fmt);
+    }
+
+    private String formatTime(Timestamp timestamp) {
+        DateFormat format = new SimpleDateFormat( "HH:mm" );
+        return format.format( timestamp );
+    }
+    private String formatDate(Timestamp timestamp) {
+        DateFormat format = new SimpleDateFormat( "yyyy-MM-dd" );
+        return format.format( timestamp );
     }
 }

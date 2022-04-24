@@ -13,9 +13,9 @@ public class Home extends AbstractScene {
     private static final String fxmlFilePath = "Home.fxml";
 
     @FXML
-    private TableView<Appointment> monthAppointmentTable;
+    private TableView<Appointment> appointmentTable;
     @FXML
-    private TableUpdater<Appointment> monthAppointmentTableUpdater;
+    private TableUpdater<Appointment> appointmentTableUpdater;
     @FXML
     private TableView<Appointment> weekAppointmentTable;
     @FXML
@@ -31,9 +31,9 @@ public class Home extends AbstractScene {
     }
 
     private void initTables() {
-        monthAppointmentTableUpdater = new TableUpdater<Appointment>(monthAppointmentTable);
-        monthAppointmentTableUpdater.initColumns(Appointment.getKeys());
-        appointmentService.registerListener(monthAppointmentTableUpdater);
+        appointmentTableUpdater = new TableUpdater<Appointment>(appointmentTable);
+        appointmentTableUpdater.initColumns(Appointment.getKeys());
+        appointmentService.registerListener(appointmentTableUpdater);
         appointmentService.get();
 
         customerTableUpdater = new TableUpdater<Customer>(customerTable);
@@ -47,16 +47,16 @@ public class Home extends AbstractScene {
     }
 
     public void handleModifyAppointment() {
-        if (checkError(toastNotification, TableUpdater.getSelected(monthAppointmentTable) == null,
+        if (checkError(toastNotification, TableUpdater.getSelected(appointmentTable) == null,
                 "you must select an appointment to modify"))
             return;
         this.sceneManger.switchToAppointment(AppointmentScene.ModifyAppointmentOperation,
-                TableUpdater.getSelected(monthAppointmentTable));
+                TableUpdater.getSelected(appointmentTable));
     }
 
     public void handleMonthDeleteAppointment() {
-        Appointment selected = TableUpdater.getSelected(monthAppointmentTable);
-        if (checkError(toastNotification, TableUpdater.isNullSelection(monthAppointmentTable), "you must select an appointment to delete"))
+        Appointment selected = TableUpdater.getSelected(appointmentTable);
+        if (checkError(toastNotification, TableUpdater.isNullSelection(appointmentTable), "you must select an appointment to delete"))
             return;
         this.appointmentService.delete(selected);
         sendNotification(toastNotification, "Appointment " + selected.getID() + " of type: " + selected.getType() + " has been deleted");
