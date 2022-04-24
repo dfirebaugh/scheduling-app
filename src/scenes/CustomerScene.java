@@ -10,9 +10,12 @@ import javafx.scene.layout.GridPane;
 import models.Customer;
 import models.Division;
 import models.Country;
+import services.UserService;
+import services.AppointmentService;
 import services.CustomerService;
-import services.DivisionService;
 import services.CountryService;
+import services.DivisionService;
+import services.ContactService;
 import services.Logger;
 
 public class CustomerScene extends AbstractScene {
@@ -41,9 +44,11 @@ public class CustomerScene extends AbstractScene {
     @FXML
     private ComboBox<Country> countryComboBox;
 
-    public CustomerScene(GridPane gridPane, SceneController sceneController, CustomerService customerService,
+    public CustomerScene(GridPane gridPane, SceneController sceneController, UserService userService,
+            AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
             DivisionService divisionService, CountryService countryService) {
-        super(fxmlFilePath, gridPane, sceneController, customerService, divisionService, countryService);
+        super(fxmlFilePath, gridPane, sceneController, userService, appointmentService, customerService, contactService,
+                divisionService, countryService);
 
         populateCountryComboBox();
     }
@@ -73,7 +78,8 @@ public class CustomerScene extends AbstractScene {
 
         Logger.info("customer " + operationType + " operation");
 
-        if (!isValid()) return;
+        if (!isValid())
+            return;
 
         if (operationType == AddCustomerOperation)
             handleAdd();
@@ -97,14 +103,9 @@ public class CustomerScene extends AbstractScene {
     }
 
     private void handleModify() {
-        Customer toModify = new Customer(
-            customer.getID(), 
-            nameField.getText(), 
-            addressField.getText(),
-            postalCodeField.getText(),
-            phoneField.getText(),
-            divisionComboBox.getSelectionModel().getSelectedItem().getID()
-            );
+        Customer toModify = new Customer(customer.getID(), nameField.getText(), addressField.getText(),
+                postalCodeField.getText(), phoneField.getText(),
+                divisionComboBox.getSelectionModel().getSelectedItem().getID());
         toModify.print();
         this.customerService.update(toModify);
     }
@@ -125,22 +126,28 @@ public class CustomerScene extends AbstractScene {
     private boolean isValid() {
         if (checkError(toastNotification, nameField.getText().length() < 1, "must have a valid name")) {
             return false;
-        };
+        }
+        ;
         if (checkError(toastNotification, addressField.getText().length() < 1, "must have a valid address")) {
             return false;
-        };
+        }
+        ;
         if (checkError(toastNotification, postalCodeField.getText().length() < 1, "must have a valid postalCode")) {
             return false;
-        };
+        }
+        ;
         if (checkError(toastNotification, phoneField.getText().length() < 1, "must have a valid phone")) {
             return false;
-        };
+        }
+        ;
         if (checkError(toastNotification, countryComboBox.getValue() == null, "must have a valid country")) {
             return false;
-        };
+        }
+        ;
         if (checkError(toastNotification, divisionComboBox.getValue() == null, "must have a valid division")) {
             return false;
-        };
+        }
+        ;
 
         return true;
     }

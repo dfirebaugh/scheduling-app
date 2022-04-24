@@ -148,8 +148,6 @@ public class Login extends Scene {
         loginBtn.setText(loginBtnLabel);
         loginBtn.setOnAction(e -> {
             Logger.info("processing login...");
-            Logger.info("username: " + this.username);
-            Logger.info("password: " + this.password);
 
             evaluateCredentials();
         });

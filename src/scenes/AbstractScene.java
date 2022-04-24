@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import services.UserService;
 import services.AppointmentService;
 import services.CustomerService;
 import services.CountryService;
@@ -14,6 +15,7 @@ import services.Logger;
 public abstract class AbstractScene extends Scene {
     public GridPane parent;
     public SceneController sceneManger;
+    public UserService userService;
     public AppointmentService appointmentService;
     public CustomerService customerService;
     public DivisionService divisionService;
@@ -28,53 +30,19 @@ public abstract class AbstractScene extends Scene {
     }
 
     public AbstractScene(String fxmlfilepath, GridPane gridPane, SceneController sceneController,
-            AppointmentService appointmentService, CustomerService customerService, DivisionService divisionService,
-            CountryService countryService) {
+            UserService userService, AppointmentService appointmentService, CustomerService customerService,
+            ContactService contactService, DivisionService divisionService, CountryService countryService) {
         super(gridPane);
-        this.customerService = customerService;
-        this.appointmentService = appointmentService;
-        this.divisionService = divisionService;
-        this.countryService = countryService;
-        initFX(gridPane, sceneController, fxmlfilepath);
-    }
-
-    public AbstractScene(String fxmlfilepath, GridPane gridPane, SceneController sceneController,
-            AppointmentService appointmentService) {
-        super(gridPane);
-        this.appointmentService = appointmentService;
-        initFX(gridPane, sceneController, fxmlfilepath);
-    }
-
-    public AbstractScene(String fxmlfilepath, GridPane gridPane, SceneController sceneController,
-            AppointmentService appointmentService, CustomerService customerService) {
-        super(gridPane);
-        this.customerService = customerService;
-        this.appointmentService = appointmentService;
-        initFX(gridPane, sceneController, fxmlfilepath);
-    }
-
-    public AbstractScene(String fxmlfilepath, GridPane gridPane, SceneController sceneController,
-            CustomerService customerService, DivisionService divisionService, CountryService countryService) {
-        super(gridPane);
-        this.customerService = customerService;
-        // this.appointmentService = appointmentService;
-        this.divisionService = divisionService;
-        this.countryService = countryService;
-        initFX(gridPane, sceneController, fxmlfilepath);
-    }
-
-    public AbstractScene(String fxmlfilepath, GridPane gridPane, SceneController sceneController, AppointmentService appointmentService,
-			CustomerService customerService, ContactService contactService) {
-        super(gridPane);
-        this.customerService = customerService;
-        this.appointmentService = appointmentService;
-        // this.divisionService = divisionService;
-        // this.countryService = countryService;
+        this.userService = userService;
         this.contactService = contactService;
+        this.customerService = customerService;
+        this.appointmentService = appointmentService;
+        this.divisionService = divisionService;
+        this.countryService = countryService;
         initFX(gridPane, sceneController, fxmlfilepath);
-	}
+    }
 
-	private void initFX(GridPane p, SceneController sm, String filepath) {
+    private void initFX(GridPane p, SceneController sm, String filepath) {
         parent = p;
         sceneManger = sm;
         parent.setMinWidth(300);

@@ -51,7 +51,7 @@ public class Appointment {
 
     public Appointment(int id, String title, String description, String location, String type, Timestamp start, Timestamp end,
             Timestamp createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int customerID, int userID,
-            int contactID) {
+            int contactID, Integer UserID) {
         setID(id);
         this.title = title;
         this.description = description;
@@ -66,9 +66,10 @@ public class Appointment {
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
+        this.userID = userID;
     }
 
-    public Appointment(Integer id, String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer contactID) {
+    public Appointment(Integer id, String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer contactID, Integer userID) {
         setID(id);
         this.title = title;
         this.description = description;
@@ -78,10 +79,10 @@ public class Appointment {
         this.contactID = contactID;
         this.start = start;
         this.end = end;
-        // this.userID = userID;
+        this.userID = userID;
     }
 
-    public Appointment(String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer contactID) {
+    public Appointment(String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer contactID, Integer userID) {
         this.title = title;
         this.description = description;
         this.location = location;
@@ -90,7 +91,7 @@ public class Appointment {
         this.contactID = contactID;
         this.start = start;
         this.end = end;
-        // this.userID = userID;
+        this.userID = userID;
     }
 
     public Appointment(ResultSet result) {
@@ -190,7 +191,7 @@ public class Appointment {
     }
 
     public String getUserID() {
-        return "1";//userID.toString();
+        return userID.toString();
     }
 
     public Integer getContactID() {

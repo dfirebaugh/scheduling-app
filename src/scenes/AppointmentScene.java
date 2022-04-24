@@ -9,8 +9,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import services.UserService;
 import services.AppointmentService;
 import services.CustomerService;
+import services.CountryService;
+import services.DivisionService;
 import services.ContactService;
 import models.Appointment;
 import models.Contact;
@@ -67,9 +70,11 @@ public class AppointmentScene extends AbstractScene {
         customerSelector.getItems().addAll(customerService.get().stream().collect(Collectors.toList()));
     }
 
-    public AppointmentScene(GridPane p, SceneController sm, AppointmentService as, CustomerService customerService,
-            ContactService contactService) {
-        super(fxmlFilePath, p, sm, as, customerService, contactService);
+    public AppointmentScene(GridPane gridPane, SceneController sceneController, UserService userService,
+            AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
+            DivisionService divisionService, CountryService countryService) {
+        super(fxmlFilePath, gridPane, sceneController, userService, appointmentService, customerService, contactService,
+                divisionService, countryService);
     }
 
     public void init() {
@@ -99,16 +104,17 @@ public class AppointmentScene extends AbstractScene {
 
         appointmentService.add(new Appointment(titleField.getText(), descriptionField.getText(),
                 locationField.getText(), typeField.getText(), start, end, customerSelector.getValue().getID(),
-                contactSelector.getValue().getID()));
+                contactSelector.getValue().getID(), userService.getCurrentLoggedInUser().getID()));
     }
 
     private void updateAppointment() {
         Timestamp start = java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
         Timestamp end = java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
 
-        appointmentService.update(new Appointment(currentAppointment.getID(), titleField.getText(),
-                descriptionField.getText(), locationField.getText(), typeField.getText(), start, end,
-                customerSelector.getValue().getID(), contactSelector.getValue().getID()));
+        appointmentService
+                .update(new Appointment(currentAppointment.getID(), titleField.getText(), descriptionField.getText(),
+                        locationField.getText(), typeField.getText(), start, end, customerSelector.getValue().getID(),
+                        contactSelector.getValue().getID(), userService.getCurrentLoggedInUser().getID()));
     }
 
     public void setCurrentAppointment(Appointment appointment, String operationType) {

@@ -6,8 +6,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import models.Appointment;
 import models.Customer;
+import services.UserService;
 import services.AppointmentService;
 import services.CustomerService;
+import services.CountryService;
+import services.DivisionService;
+import services.ContactService;;
 
 public class Home extends AbstractScene {
     private static final String fxmlFilePath = "Home.fxml";
@@ -25,8 +29,12 @@ public class Home extends AbstractScene {
     @FXML
     private Label toastNotification;
 
-    public Home(GridPane p, SceneController sm, AppointmentService as, CustomerService cs) {
-        super(fxmlFilePath, p, sm, as, cs);
+    public Home(GridPane gridPane, SceneController sceneController, UserService userService,
+            AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
+            DivisionService divisionService, CountryService countryService) {
+        super(fxmlFilePath, gridPane, sceneController, userService, appointmentService, customerService, contactService,
+                divisionService, countryService);
+
         initTables();
     }
 
@@ -56,10 +64,12 @@ public class Home extends AbstractScene {
 
     public void handleMonthDeleteAppointment() {
         Appointment selected = TableUpdater.getSelected(appointmentTable);
-        if (checkError(toastNotification, TableUpdater.isNullSelection(appointmentTable), "you must select an appointment to delete"))
+        if (checkError(toastNotification, TableUpdater.isNullSelection(appointmentTable),
+                "you must select an appointment to delete"))
             return;
         this.appointmentService.delete(selected);
-        sendNotification(toastNotification, "Appointment " + selected.getID() + " of type: " + selected.getType() + " has been deleted");
+        sendNotification(toastNotification,
+                "Appointment " + selected.getID() + " of type: " + selected.getType() + " has been deleted");
     }
 
     public void handleAddCustomer() {
@@ -67,7 +77,8 @@ public class Home extends AbstractScene {
     }
 
     public void handleModifyCustomer() {
-        if (checkError(toastNotification, TableUpdater.isNullSelection(customerTable), "you must select a customer to modify"))
+        if (checkError(toastNotification, TableUpdater.isNullSelection(customerTable),
+                "you must select a customer to modify"))
             return;
         TableUpdater.getSelected(customerTable).print();
         this.sceneManger.switchToCustomer(TableUpdater.getSelected(customerTable),
