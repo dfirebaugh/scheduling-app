@@ -91,19 +91,19 @@ public class CustomerScene extends AbstractScene {
     private void handleAdd() {
         Division selected = divisionComboBox.getValue();
         Customer toAdd = new Customer(nameField.getText(), addressField.getText(), postalCodeField.getText(),
-                phoneField.getText(), selected.getId());
+                phoneField.getText(), selected.getID());
         toAdd.print();
         this.customerService.add(toAdd);
     }
 
     private void handleModify() {
         Customer toModify = new Customer(
-            customer.getId(), 
+            customer.getID(), 
             nameField.getText(), 
             addressField.getText(),
             postalCodeField.getText(),
             phoneField.getText(),
-            divisionComboBox.getSelectionModel().getSelectedItem().getId()
+            divisionComboBox.getSelectionModel().getSelectedItem().getID()
             );
         toModify.print();
         this.customerService.update(toModify);
@@ -146,7 +146,7 @@ public class CustomerScene extends AbstractScene {
     }
 
     private void populateExistingCustomer(Customer customer) {
-        idField.setText(customer.getId().toString());
+        idField.setText(customer.getID().toString());
         nameField.setText(customer.getName());
         addressField.setText(customer.getAddress());
         postalCodeField.setText(customer.getPostalCode());
@@ -161,7 +161,7 @@ public class CustomerScene extends AbstractScene {
         addressField.setText("");
         postalCodeField.setText("");
         phoneField.setText("");
-        populateCountryComboBox();
+        countryComboBox.setValue(null);
         divisionComboBox.setValue(null);
     }
 }

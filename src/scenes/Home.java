@@ -1,7 +1,5 @@
 package scenes;
 
-import java.util.concurrent.TimeUnit;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -30,7 +28,6 @@ public class Home extends AbstractScene {
     public Home(GridPane p, SceneController sm, AppointmentService as, CustomerService cs) {
         super(fxmlFilePath, p, sm, as, cs);
         initTables();
-
     }
 
     private void initTables() {
@@ -62,7 +59,7 @@ public class Home extends AbstractScene {
         if (checkError(toastNotification, TableUpdater.isNullSelection(monthAppointmentTable), "you must select an appointment to delete"))
             return;
         this.appointmentService.delete(selected);
-        sendNotification(toastNotification, "Appointment " + selected.getId() + " has been deleted");
+        sendNotification(toastNotification, "Appointment " + selected.getID() + " of type: " + selected.getType() + " has been deleted");
     }
 
     public void handleAddCustomer() {
@@ -86,6 +83,6 @@ public class Home extends AbstractScene {
         if (checkError(toastNotification, selected == null, "you must select a customer to delete"))
             return;
         this.customerService.delete(selected);
-        sendNotification(toastNotification, "Customer " + selected.getId() + " has been deleted");
+        sendNotification(toastNotification, "Customer " + selected.getID() + " has been deleted");
     }
 }

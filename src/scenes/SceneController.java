@@ -10,8 +10,9 @@ import services.AppointmentService;
 import services.CountryService;
 import services.CustomerService;
 import services.DivisionService;
-import services.Logger;
 import services.UserService;
+import services.ContactService;
+import services.Logger;
 
 public class SceneController {
     Stage primaryStage;
@@ -21,6 +22,7 @@ public class SceneController {
     AppointmentService appointmentService;
     DivisionService divisionService;
     CountryService countryService;
+    ContactService contactService;
 
     private Login loginScene;
     private Home homeScene;
@@ -37,6 +39,7 @@ public class SceneController {
         divisionService = new DivisionService();
         countryService = new CountryService();
         customerService = new CustomerService(appointmentService);
+        contactService = new ContactService();
     }
 
     private void initStage(Stage ps){
@@ -45,10 +48,10 @@ public class SceneController {
     }
 
     private void initScenes() {
-        loginScene = new Login(new GridPane(), this, this.userService);
-        homeScene = new Home(new GridPane(), this, this.appointmentService, this.customerService);
-        appointmentScene = new AppointmentScene(new GridPane(), this, this.appointmentService);
-        customerScene = new CustomerScene(new GridPane(), this, this.customerService, this.divisionService, this.countryService);
+        loginScene = new Login(new GridPane(), this, userService);
+        homeScene = new Home(new GridPane(), this, appointmentService, customerService);
+        appointmentScene = new AppointmentScene(new GridPane(), this, appointmentService, customerService, contactService);
+        customerScene = new CustomerScene(new GridPane(), this, customerService, divisionService, countryService);
     }
 
     public SceneController(Stage ps) {
@@ -63,26 +66,26 @@ public class SceneController {
     }
 
     public void switchToLogin() {
-        this.setScene(loginScene);
+        setScene(loginScene);
     }
     public void switchToHome() {
-        this.setScene(homeScene);
+        setScene(homeScene);
     }
     public void switchToAppointment() {
         appointmentScene.setCurrentAppointment(new Appointment(), AppointmentScene.AddAppointmentOperation);
-        this.setScene(appointmentScene);
+        setScene(appointmentScene);
     }
     public void switchToAppointment(String operationType, Appointment appointment) {
         appointmentScene.setCurrentAppointment(appointment, operationType);
-        this.setScene(appointmentScene);
+        setScene(appointmentScene);
     }
     public void switchToCustomer() {
         customerScene.setCurrentCustomer(new Customer(), CustomerScene.AddCustomerOperation);
-        this.setScene(customerScene);
+        setScene(customerScene);
     }
     public void switchToCustomer(Customer customer, String operationType) {
         customerScene.setCurrentCustomer(customer, operationType);
-        this.setScene(customerScene);
+        setScene(customerScene);
     }
 
     public void setScene(Scene scene) {

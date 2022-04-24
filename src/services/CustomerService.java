@@ -32,6 +32,14 @@ public class CustomerService {
             return null;
         }
     }
+    public Customer get(Integer customerID) {
+        try {
+            return CustomerStore.get(customerID);
+        } catch (SQLException e) {
+            Logger.error(e);
+            return null;
+        }
+    }
 
     public void add(Customer customer) {
         try {

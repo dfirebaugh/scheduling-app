@@ -8,6 +8,7 @@ import services.AppointmentService;
 import services.CustomerService;
 import services.CountryService;
 import services.DivisionService;
+import services.ContactService;
 import services.Logger;
 
 public abstract class AbstractScene extends Scene {
@@ -17,6 +18,7 @@ public abstract class AbstractScene extends Scene {
     public CustomerService customerService;
     public DivisionService divisionService;
     public CountryService countryService;
+    public ContactService contactService;
 
     public String operationType;
 
@@ -61,7 +63,18 @@ public abstract class AbstractScene extends Scene {
         initFX(gridPane, sceneController, fxmlfilepath);
     }
 
-    private void initFX(GridPane p, SceneController sm, String filepath) {
+    public AbstractScene(String fxmlfilepath, GridPane gridPane, SceneController sceneController, AppointmentService appointmentService,
+			CustomerService customerService, ContactService contactService) {
+        super(gridPane);
+        this.customerService = customerService;
+        this.appointmentService = appointmentService;
+        // this.divisionService = divisionService;
+        // this.countryService = countryService;
+        this.contactService = contactService;
+        initFX(gridPane, sceneController, fxmlfilepath);
+	}
+
+	private void initFX(GridPane p, SceneController sm, String filepath) {
         parent = p;
         sceneManger = sm;
         parent.setMinWidth(300);

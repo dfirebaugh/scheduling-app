@@ -22,7 +22,7 @@ public class AppointmentStore extends AbstractStore {
         return appointments;
     }
     public static Appointment get(Appointment lookup) throws SQLException {
-        if (lookup.getId() != 0)
+        if (lookup.getID() != 0)
             return AppointmentStore.getByID(lookup);
 
         if (lookup.getTitle() != "")

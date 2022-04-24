@@ -9,7 +9,7 @@ public class AppointmentQueries extends AbstractQuery {
         return String.format("SELECT * FROM Appointments;");
     }
     public static String getById(Appointment lookup) {
-        return String.format("SELECT * FROM Appointments WHERE `Appointment_ID` = %d;", lookup.getId());
+        return String.format("SELECT * FROM Appointments WHERE `Appointment_ID` = %d;", lookup.getID());
     }
     public static String getByTitle(Appointment lookup) {
         return String.format("SELECT * FROM Appointments WHERE `Appointment_Title` = '%s';", lookup.getTitle());
@@ -35,19 +35,19 @@ public class AppointmentQueries extends AbstractQuery {
             update.getEnd(), update.getCreateDate(),
             update.getCreatedBy(), update.getLastUpdated(),
             update.getCustomerID(), update.getUserID(),
-            update.getContactID(), update.getId()
+            update.getContactID(), update.getID()
         );
     }
     public static String delete(Appointment appointment) {
         return String.format(
             "DELETE FROM `client_schedule`.`appointments` WHERE `Appointment_ID` = %d;", 
-            appointment.getId()
+            appointment.getID()
         );
     }
     public static String deleteAllCustomersAppointments(Customer customer) {
         return String.format(
             "DELETE FROM `client_schedule`.`appointments` WHERE `Customer_ID` = %d;", 
-            customer.getId()
+            customer.getID()
         );
     }
 }

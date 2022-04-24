@@ -13,7 +13,10 @@ public class CustomerQueries extends AbstractQuery {
         return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID`;");
         }
     public static String getById(Customer lookup) {
-        return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID` WHERE `Customer_ID` = %d;", lookup.getId());
+        return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID` WHERE `Customer_ID` = %d;", lookup.getID());
+    }
+    public static String getById(Integer customerID) {
+        return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID` WHERE `Customer_ID` = %d;", customerID);
     }
     public static String getByName(Customer lookup) {
         return String.format("SELECT a.`Customer_ID`, a.`Customer_Name`, a.`Address`, a.`Postal_Code`, a.`Phone`, a.`Create_Date`, a.`Created_By`, a.`Last_Update`, a.`Last_Updated_By`, a.`Division_ID`, b.`Division`, b.`Country_ID`, c.`Country` FROM `client_schedule`.`customers` as a LEFT JOIN `client_schedule`.`first_level_divisions` as b  ON a.`Division_ID` = b.`Division_ID` LEFT JOIN `client_schedule`.`countries` as c ON b.`Country_ID` = c.`Country_ID` WHERE `Customer_Name` = '%s';", lookup.getName());
@@ -41,12 +44,12 @@ public class CustomerQueries extends AbstractQuery {
             getTimeStamp(),
             modifiedBy,
             update.getDivisionID(),
-            update.getId());
+            update.getID());
     }
     public static String delete(Customer lookup) {
         return String.format(
             "DELETE FROM `client_schedule`.`customers` WHERE `Customer_ID` = %d;",
-            lookup.getId());
+            lookup.getID());
     }
 
     public static java.sql.Timestamp getTimeStamp() {

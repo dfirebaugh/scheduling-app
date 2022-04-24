@@ -20,12 +20,14 @@ public class CustomerStore extends AbstractStore {
     }
 
     public static Customer get(Customer lookup) throws SQLException {
-        if (lookup.getId() == 0 && lookup.getName().length() > 0)
+        if (lookup.getID() == 0 && lookup.getName().length() > 0)
             return CustomerStore.getByName(lookup);
 
         return CustomerStore.getByID(lookup);
     }
-
+    public static Customer get(Integer customerID) throws SQLException {
+        return new Customer(getFirst(CustomerQueries.executeQuery(CustomerQueries.getById(customerID))));
+    }
     public static Customer getByID(Customer lookup) throws SQLException {
         return new Customer(getFirst(CustomerQueries.executeQuery(CustomerQueries.getById(lookup))));
     }

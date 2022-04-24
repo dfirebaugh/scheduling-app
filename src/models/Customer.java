@@ -3,6 +3,12 @@ package models;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.stream.Stream;
+
+// import javafx.beans.property.SimpleStringProperty;
+// import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +16,17 @@ import java.sql.SQLException;
 import services.Logger;
 
 public class Customer {
-    private Integer id;
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    public final IntegerProperty idProperty() {
+        return id;
+    }
+    public final Integer getID() {
+        return id.get();
+    }
+    public final void setID(Integer value) {
+        id.set(value);
+    }
+
     private String name;
     private String address;
     private String postalCode;
@@ -24,7 +40,7 @@ public class Customer {
     private String division;
 
     public Customer(int id) {
-        this.id = id;
+        setID(id);
     }
 
     public Customer(String name) {
@@ -32,7 +48,7 @@ public class Customer {
     }
 
     public Customer(Integer id, String name, String address, String postalCode, String phone, Integer divisionID) {
-        this.id = id;
+        setID(id);
         this.name = name;
         this.address = address;
         this.postalCode = postalCode;
@@ -54,7 +70,7 @@ public class Customer {
     }
 
     public Customer(Integer id, String name, String address, String postalCode, String phone) {
-        this.id = id;
+        setID(id);
         this.name = name;
         this.address = address;
         this.postalCode = postalCode;
@@ -65,7 +81,7 @@ public class Customer {
 
     public Customer(ResultSet result) {
         try {
-            this.id = result.getInt("Customer_ID");
+            setID(result.getInt("Customer_ID"));
             this.name = result.getString("Customer_Name");
             this.address = result.getString("Address");
             this.postalCode = result.getString("Postal_Code");
@@ -87,22 +103,13 @@ public class Customer {
     }
 
     public String toString() {
-        return String.format(
-                "id: %s, name: %s, address: %s, postalCode: %s, phone: %s, createDate: %s, createdBy: %s, lastUpdated: %s, lastUpdatedBy: %s, divisionID: %s, country: %s, division: %s",
-                id, name, address, postalCode, phone, createDate, createdBy, lastUpdated, lastUpdatedBy, divisionID, country, division);
+        return name;
     }
 
     public static Stream<String> getKeys() {
         String[] keys = { "id", "name", "address", "postalCode", "phone", "createDate", "createdBy", "lastUpdated",
                 "lastUpdatedBy", "divisionID", "country", "division" };
         return Arrays.stream(keys);
-    }
-
-    /**
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
     }
 
     public String getIdProperty() {
