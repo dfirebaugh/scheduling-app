@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import java.time.LocalDate;
+
 import models.Appointment;
 import models.Customer;
 import services.UserService;
@@ -21,13 +23,13 @@ public class Home extends AbstractScene {
     @FXML
     private TableUpdater<Appointment> appointmentTableUpdater;
     @FXML
-    private TableView<Appointment> weekAppointmentTable;
-    @FXML
     private TableView<Customer> customerTable;
     @FXML
     private TableUpdater<Customer> customerTableUpdater;
     @FXML
     private Label toastNotification;
+    @FXML
+    private Label currentSetLabel;
 
     public Home(GridPane gridPane, SceneController sceneController, UserService userService,
             AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
@@ -39,6 +41,9 @@ public class Home extends AbstractScene {
     }
 
     private void initTables() {
+        appointmentService.setCurrentSet(0);
+        appointmentService.setIsMonth(true);
+
         appointmentTableUpdater = new TableUpdater<Appointment>(appointmentTable);
         appointmentTableUpdater.initColumns(Appointment.getKeys());
         appointmentService.registerListener(appointmentTableUpdater);
@@ -48,6 +53,8 @@ public class Home extends AbstractScene {
         customerTableUpdater.initColumns(Customer.getKeys());
         customerService.registerListener(customerTableUpdater);
         customerService.get();
+
+        setCurrentOperationTypeLabel();
     }
 
     public void handleAddAppointment() {
@@ -83,6 +90,33 @@ public class Home extends AbstractScene {
         TableUpdater.getSelected(customerTable).print();
         this.sceneManger.switchToCustomer(TableUpdater.getSelected(customerTable),
                 CustomerScene.ModifyCustomerOperation);
+    }
+
+    public void handleIncrement() {
+        appointmentService.setCurrentSet(appointmentService.getCurrentSet()+1);
+        currentSetLabel.setText(appointmentService.getTableLabel());
+        appointmentService.get();
+    }
+    public void handleDecrement() {
+        appointmentService.setCurrentSet(appointmentService.getCurrentSet()-1);
+        currentSetLabel.setText(appointmentService.getTableLabel());
+        appointmentService.get();
+    }
+
+
+    private void setCurrentOperationTypeLabel() {
+        if (currentSetLabel == null) return;
+        currentSetLabel.setText(appointmentService.getTableLabel());
+    }
+    public void handleSetIsWeek() {
+        appointmentService.setCurrentSet(0);
+        appointmentService.setIsMonth(false);
+        setCurrentOperationTypeLabel();
+    }
+    public void handleSetIsMonth() {
+        appointmentService.setCurrentSet(0);
+        appointmentService.setIsMonth(true);
+        setCurrentOperationTypeLabel();
     }
 
     public void handleLogout() {

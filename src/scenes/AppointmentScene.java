@@ -1,7 +1,7 @@
 package scenes;
 
 import java.sql.Timestamp;
-
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
@@ -128,6 +128,9 @@ public class AppointmentScene extends AbstractScene {
     }
 
     private boolean isValid() {
+        Pattern datePattern = Pattern.compile("\\d{4}\\-\\d{2}\\-\\d{2}");
+        Pattern timePattern = Pattern.compile("\\d{2}\\:\\d{2}");
+
         if (checkError(toastNotification, titleField.getText().length() < 1, "must have a valid title")) {
             return false;
         }
@@ -140,16 +143,20 @@ public class AppointmentScene extends AbstractScene {
         if (checkError(toastNotification, typeField.getText().length() < 1, "must have a valid type")) {
             return false;
         }
-        if (checkError(toastNotification, startDateField.getText().length() < 1, "must have a valid start date")) {
+        if (checkError(toastNotification, !datePattern.matcher(startDateField.getText()).find(),
+                "must have a valid start date")) {
             return false;
         }
-        if (checkError(toastNotification, startTimeField.getText().length() < 1, "must have a valid start time")) {
+        if (checkError(toastNotification, !timePattern.matcher(startTimeField.getText()).find(),
+                "must have a valid start time")) {
             return false;
         }
-        if (checkError(toastNotification, endDateField.getText().length() < 1, "must have a valid end date")) {
+        if (checkError(toastNotification, !datePattern.matcher(endDateField.getText()).find(),
+                "must have a valid end date")) {
             return false;
         }
-        if (checkError(toastNotification, endTimeField.getText().length() < 1, "must have a valid end time")) {
+        if (checkError(toastNotification, !timePattern.matcher(endTimeField.getText()).find(),
+                "must have a valid end time")) {
             return false;
         }
         if (checkError(toastNotification, contactSelector.getValue() == null, "must have a valid contact selected")) {

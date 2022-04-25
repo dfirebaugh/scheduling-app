@@ -9,9 +9,19 @@ import models.Appointment;
 import models.Customer;
 
 public class AppointmentStore extends AbstractStore {
-
     public static ObservableList<Appointment> get() throws SQLException {
         ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.get());
+
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        while (result.next()) {
+            Appointment a = new Appointment(result);
+            a.print();
+            appointments.add(a);
+        }
+        return appointments;
+    }
+    public static ObservableList<Appointment> get(boolean isMonth, Integer currentSet) throws SQLException {
+        ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.get(isMonth, currentSet));
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         while (result.next()) {

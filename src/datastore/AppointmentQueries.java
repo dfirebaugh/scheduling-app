@@ -12,6 +12,12 @@ public class AppointmentQueries extends AbstractQuery {
     public static String get() {
         return String.format("SELECT * FROM Appointments;");
     }
+    public static String get(boolean isMonth, Integer currentSet) {
+        if (isMonth) {
+            return String.format("SELECT * FROM Appointments WHERE MONTH(`Start`) = MONTH(ADDDATE(NOW(), INTERVAL %d month));", currentSet);
+        }
+        return String.format("SELECT * FROM Appointments WHERE YEARWEEK(`Start`) = YEARWEEK(ADDDATE(now(), INTERVAL %d week));", currentSet);
+    }
     public static String getById(Appointment lookup) {
         return String.format("SELECT * FROM Appointments WHERE `Appointment_ID` = %d;", lookup.getID());
     }

@@ -8,6 +8,9 @@ import models.Appointment;
 import models.Customer;
 
 public class AppointmentService {
+    private boolean isMonth = true;
+    private Integer currentSet;
+
     public AppointmentService() {
     }
 
@@ -17,9 +20,17 @@ public class AppointmentService {
         this.listener = listener;
     }
 
-    public ObservableList<Appointment> get() {
+    public ObservableList<Appointment> getAll() {
         try {
             return listener.requestUpdate(AppointmentStore.get());
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
+        return null;
+    }
+    public ObservableList<Appointment> get() {
+        try {
+            return listener.requestUpdate(AppointmentStore.get(isMonth, currentSet));
         } catch (SQLException e) {
             Logger.error(e);
         }
@@ -29,7 +40,7 @@ public class AppointmentService {
     public void add(Appointment appointment) {
         try {
             AppointmentStore.add(appointment);
-            listener.requestUpdate(AppointmentStore.get());
+            listener.requestUpdate(AppointmentStore.get(isMonth, currentSet));
         } catch (SQLException e) {
             Logger.error(e);
         }
@@ -38,7 +49,7 @@ public class AppointmentService {
     public void update(Appointment appointment) {
         try {
             AppointmentStore.update(appointment);
-            listener.requestUpdate(AppointmentStore.get());
+            listener.requestUpdate(AppointmentStore.get(isMonth, currentSet));
         } catch (SQLException e) {
             Logger.error(e);
         }
@@ -47,7 +58,7 @@ public class AppointmentService {
     public void delete(Appointment appointment) {
         try {
             AppointmentStore.delete(appointment);
-            listener.requestUpdate(AppointmentStore.get());
+            listener.requestUpdate(AppointmentStore.get(isMonth, currentSet));
         } catch (SQLException e) {
             Logger.error(e);
         }
@@ -56,9 +67,25 @@ public class AppointmentService {
     public void deleteAllCustomersAppointments(Customer customer) {
         try {
             AppointmentStore.deleteAllCustomersAppointments(customer);
-            listener.requestUpdate(AppointmentStore.get());
+            listener.requestUpdate(AppointmentStore.get(isMonth, currentSet));
         } catch (SQLException e) {
             Logger.error(e);
         }
+    }
+
+    public void setIsMonth(boolean isMonth) {
+        this.isMonth = isMonth;
+    }
+    public void setCurrentSet(Integer currentSet) {
+        this.currentSet = currentSet;
+    }
+    public Integer getCurrentSet() {
+        return currentSet;
+    }
+    public String getTableLabel() {
+        if (isMonth) {
+            return "Month: " + currentSet;
+        }
+        return "Week: " + currentSet;
     }
 }

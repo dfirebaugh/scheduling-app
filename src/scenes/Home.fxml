@@ -8,21 +8,33 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="783.0" prefWidth="1111.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <tabs>
       <Tab text="Home">
-         <BorderPane layoutX="13.0" layoutY="3.0" prefHeight="735.0" prefWidth="946.0">
-            <top>
-               <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <buttons>
-                  <Button mnemonicParsing="false" onAction="#handleLogout" text="Log Off" />
-               </buttons>
-               </ButtonBar>
-               <Label fx:id="toastNatification" text="Label" visible="false" BorderPane.alignment="CENTER" />
-            </top>
+         <BorderPane layoutX="13.0" layoutY="3.0" prefHeight="569.0" prefWidth="1114.0">
             <center>
-               <BorderPane prefHeight="391.0" prefWidth="1097.0" BorderPane.alignment="CENTER">
+               <BorderPane prefHeight="305.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+                  <top>
+                     <Label fx:id="toastNotification" contentDisplay="CENTER" text="Appointments" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+                  </top>
+                  <center>
+                     <VBox prefHeight="43.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="1064.0" tabClosingPolicy="UNAVAILABLE">
+                              <tabs>
+                                 <Tab onSelectionChanged="#handleSetIsMonth" text="Month View">
+                                 </Tab>
+                                 <Tab onSelectionChanged="#handleSetIsWeek" text="Week View">
+                                 </Tab>
+                              </tabs>
+                           </TabPane>
+                           <TableView fx:id="appointmentTable" prefHeight="274.0" prefWidth="1065.0" BorderPane.alignment="CENTER" />
+                        </children>
+                     </VBox>
+                  </center>
                   <bottom>
                      <ButtonBar prefHeight="50.0" prefWidth="520.0" BorderPane.alignment="CENTER">
                      <buttons>
@@ -32,21 +44,6 @@
                      </buttons>
                      </ButtonBar>
                   </bottom>
-                  <top>
-                     <Label fx:id="toastNotification" contentDisplay="CENTER" text="Appointments" textAlignment="CENTER" BorderPane.alignment="CENTER" />
-                  </top>
-                  <center>
-                     <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="1064.0" tabClosingPolicy="UNAVAILABLE">
-                        <tabs>
-                           <Tab text="Month View">
-                              <TableView fx:id="appointmentTable" prefHeight="274.0" prefWidth="1065.0" BorderPane.alignment="CENTER" />
-                           </Tab>
-                           <Tab text="Week View">
-                              <TableView fx:id="weekAppointmentTable" prefHeight="246.0" prefWidth="629.0" BorderPane.alignment="CENTER" />
-                           </Tab>
-                        </tabs>
-                     </TabPane>
-                  </center>
                </BorderPane>
             </center>
             <bottom>
@@ -71,6 +68,24 @@
             <padding>
                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
             </padding>
+            <top>
+               <HBox prefHeight="43.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+                  <children>
+                     <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#handleDecrement" text="&lt;" />
+                        <Label fx:id="currentSetLabel" text="Label" />
+                        <Button mnemonicParsing="false" onAction="#handleIncrement" text="&gt;" />
+                     </buttons>
+                     </ButtonBar>
+                     <ButtonBar prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                        <buttons>
+                           <Button mnemonicParsing="false" onAction="#handleLogout" text="Log Off" />
+                        </buttons>
+                     </ButtonBar>
+                  </children>
+               </HBox>
+            </top>
          </BorderPane>
       </Tab>
       <Tab text="Appointments By Type">
