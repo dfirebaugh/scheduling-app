@@ -38,6 +38,15 @@ public class Home extends AbstractScene {
                 divisionService, countryService);
 
         initTables();
+        checkUpcomingAppointments();
+    }
+
+    private void checkUpcomingAppointments() {
+        // if (hasUpdomingAppointments)
+
+    //     alert.showAndWait()
+    //   .filter(response -> response == ButtonType.OK)
+    //   .ifPresent(response -> formatSystem());
     }
 
     private void initTables() {
@@ -112,11 +121,13 @@ public class Home extends AbstractScene {
         appointmentService.setCurrentSet(0);
         appointmentService.setIsMonth(false);
         setCurrentOperationTypeLabel();
+        appointmentService.get();
     }
     public void handleSetIsMonth() {
         appointmentService.setCurrentSet(0);
         appointmentService.setIsMonth(true);
         setCurrentOperationTypeLabel();
+        appointmentService.get();
     }
 
     public void handleLogout() {

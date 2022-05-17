@@ -3,6 +3,9 @@ package scenes;
 import java.sql.Timestamp;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -15,6 +18,7 @@ import services.CustomerService;
 import services.CountryService;
 import services.DivisionService;
 import services.ContactService;
+import services.Logger;
 import models.Appointment;
 import models.Contact;
 import models.Customer;
@@ -98,23 +102,26 @@ public class AppointmentScene extends AbstractScene {
         sceneManger.switchToHome();
     }
 
-    private void addAppointment() {
-        Timestamp start = java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
-        Timestamp end = java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
+    private Timestamp getStartTimeStamp() {
+        return java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
+    }
 
+    private Timestamp getEndTimeStamp() {
+        return java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
+    }
+
+    private void addAppointment() {
         appointmentService.add(new Appointment(titleField.getText(), descriptionField.getText(),
-                locationField.getText(), typeField.getText(), start, end, customerSelector.getValue().getID(),
-                contactSelector.getValue().getID(), userService.getCurrentLoggedInUser().getID()));
+                locationField.getText(), typeField.getText(), getStartTimeStamp(), getEndTimeStamp(),
+                customerSelector.getValue().getID(), contactSelector.getValue().getID(),
+                userService.getCurrentLoggedInUser().getID()));
     }
 
     private void updateAppointment() {
-        Timestamp start = java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
-        Timestamp end = java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
-
-        appointmentService
-                .update(new Appointment(currentAppointment.getID(), titleField.getText(), descriptionField.getText(),
-                        locationField.getText(), typeField.getText(), start, end, customerSelector.getValue().getID(),
-                        contactSelector.getValue().getID(), userService.getCurrentLoggedInUser().getID()));
+        appointmentService.update(new Appointment(currentAppointment.getID(), titleField.getText(),
+                descriptionField.getText(), locationField.getText(), typeField.getText(), getStartTimeStamp(),
+                getEndTimeStamp(), customerSelector.getValue().getID(), contactSelector.getValue().getID(),
+                userService.getCurrentLoggedInUser().getID()));
     }
 
     public void setCurrentAppointment(Appointment appointment, String operationType) {
@@ -125,6 +132,33 @@ public class AppointmentScene extends AbstractScene {
             clear();
         if (operationType == ModifyAppointmentOperation)
             populateExistingAppointment(appointment);
+    }
+
+    private boolean isWithinBusinessHours() {
+        Integer start = getStartTimeStamp().getHours();
+        Integer end = getEndTimeStamp().getHours();
+        Logger.info(start + " " + end);
+
+        if (start < 8) {
+            return false;
+        };
+        if (start > 22) {
+            return false;
+        };
+        if (end < 8) {
+            return false;
+        };
+        if (end > 22) {
+            return false;
+        };
+        return true;
+    }
+
+    private String formatDateTimeEST(Timestamp timestamp) {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        ZonedDateTime z = timestamp.toInstant().atZone(ZoneId.of("EST"));
+
+        return z.format(fmt);
     }
 
     private boolean isValid() {
@@ -163,6 +197,11 @@ public class AppointmentScene extends AbstractScene {
             return false;
         }
         if (checkError(toastNotification, customerSelector.getValue() == null, "must have a valid customer selected")) {
+            return false;
+        }
+
+        if (checkError(toastNotification, isWithinBusinessHours(),
+                "the appointment cannot be scheduled outside of business hours (i.e. 8am-10pm est")) {
             return false;
         }
 
