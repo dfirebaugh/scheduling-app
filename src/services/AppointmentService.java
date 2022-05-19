@@ -36,7 +36,14 @@ public class AppointmentService {
         }
         return null;
     }
-
+    public Appointment getUpComing() {
+        try {
+            return AppointmentStore.getUpComing();
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
+        return null;
+    }
     public void add(Appointment appointment) {
         try {
             AppointmentStore.add(appointment);

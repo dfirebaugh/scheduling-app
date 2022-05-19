@@ -18,6 +18,9 @@ public class AppointmentQueries extends AbstractQuery {
         }
         return String.format("SELECT * FROM Appointments WHERE YEARWEEK(`Start`) = YEARWEEK(ADDDATE(now(), INTERVAL %d week));", currentSet);
     }
+    public static String getUpComing() {
+        return String.format("SELECT * FROM Appointments WHERE `appointments`.`Start` BETWEEN NOW() AND NOW() + INTERVAL 15 MINUTE;");
+    }
     public static String getById(Appointment lookup) {
         return String.format("SELECT * FROM Appointments WHERE `Appointment_ID` = %d;", lookup.getID());
     }

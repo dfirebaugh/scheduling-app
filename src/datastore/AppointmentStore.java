@@ -40,6 +40,13 @@ public class AppointmentStore extends AbstractStore {
 
         return null;
     }
+    public static Appointment getUpComing() throws SQLException {
+        ResultSet upcoming = getFirst(AppointmentQueries.executeQuery(AppointmentQueries.getUpComing()));
+        if (upcoming == null) {
+            return null;
+        }
+        return new Appointment(upcoming);
+    }
     public static Appointment getByID(Appointment lookup) throws SQLException {
         return new Appointment(getFirst(AppointmentQueries.executeQuery(AppointmentQueries.getById(lookup))));
     }

@@ -1,12 +1,16 @@
 package scenes;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -134,24 +138,44 @@ public class AppointmentScene extends AbstractScene {
             populateExistingAppointment(appointment);
     }
 
+    /**
+     * isWithinBusinessHours checks that the appointment is within defined business hours 8am - 10pm EST
+     */
     private boolean isWithinBusinessHours() {
-        Integer start = getStartTimeStamp().getHours();
-        Integer end = getEndTimeStamp().getHours();
-        Logger.info(start + " " + end);
+        ZonedDateTime startTime = getStartTimeStamp().toInstant().atZone(ZoneId.of(TimeZone.getDefault().getID()));
+        ZonedDateTime endTime = getEndTimeStamp().toInstant().atZone(ZoneId.of(TimeZone.getDefault().getID()));
+        int startEST = startTime.withZoneSameInstant(ZoneId.of("America/New_York")).getHour();
+        int endEST = endTime.withZoneSameInstant(ZoneId.of("America/New_York")).getHour();
 
-        if (start < 8) {
+        if (startEST < 8) {
             return false;
         };
-        if (start > 22) {
+        if (startEST > 22) {
             return false;
         };
-        if (end < 8) {
+        if (endEST < 8) {
             return false;
         };
-        if (end > 22) {
+        if (endEST > 22) {
             return false;
         };
         return true;
+    }
+
+    /**
+     * isOverlapping checks appointment times against existing appointments to verify
+     * that there is no overlapping apppointments.
+     */
+    private boolean isOverlapping() {
+        ObservableList<Appointment> appointments = appointmentService.getAll();
+
+        for (Appointment a : appointments) {
+            if (a.IsOverlapping(new Date(getStartTimeStamp().getTime()), new Date(getEndTimeStamp().getTime()))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private String formatDateTimeEST(Timestamp timestamp) {
@@ -200,8 +224,12 @@ public class AppointmentScene extends AbstractScene {
             return false;
         }
 
-        if (checkError(toastNotification, isWithinBusinessHours(),
-                "the appointment cannot be scheduled outside of business hours (i.e. 8am-10pm est")) {
+        if (checkError(toastNotification, !isWithinBusinessHours(),
+                "the appointment cannot be scheduled outside of business hours (i.e. 8am-10pm est)")) {
+            return false;
+        }
+        if (checkError(toastNotification, isOverlapping(),
+                "the appointment cannot overlap with an existing appointment.")) {
             return false;
         }
 

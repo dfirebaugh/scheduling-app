@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.stream.Stream;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -121,6 +122,13 @@ public class Appointment {
                 + " " + this.lastUpdatedBy + " " + this.customerID + " " + this.userID + " " + this.contactID);
     }
 
+    public String toString() {
+        return String.format("appointment ID: %s, title: %s, description: %s, location: %s, type: %s, start: %s, end: %s, createDate: %s, createdBy: %s, lastUpdated: %s, lastUpdatedBy: %s, customerID: %s, userID: %s, contactID: %s", 
+                this.id.toString(), this.title, this.description, this.location, this.type,
+                this.start, this.end, this.createDate, this.createdBy, this.lastUpdated,
+                this.lastUpdatedBy, this.customerID, this.userID, this.contactID);
+    }
+
     public static Stream<String> getKeys() {
         String[] keys = { "id", "title", "description", "location", "type", "start", "end", "createDate", "createdBy",
                 "lastUpdated", "lastUpdatedBy", "customerID", "userID", "contactID" };
@@ -216,5 +224,27 @@ public class Appointment {
     private String formatDate(Timestamp timestamp) {
         DateFormat format = new SimpleDateFormat( "yyyy-MM-dd" );
         return format.format( timestamp );
+    }
+
+    private boolean isEntirelyAfter(Date s, Date e) {
+        Date e1 = new Date(end.getTime());
+        Date s1 = new Date(start.getTime());
+        return s.after(s1) && s.after(e1) && e.after(e1);
+    }
+    private boolean isEntirelyBefore(Date s, Date e) {
+        Date e1 = new Date(end.getTime());
+        Date s1 = new Date(start.getTime());
+        return s.before(s1) && s.before(e1) && e.before(s1);
+    }
+
+    public boolean IsOverlapping(Date s, Date e) {
+        if (isEntirelyAfter(s, e)) {
+            return false;
+        }
+        if (isEntirelyBefore(s, e)) {
+            return false;
+        }
+
+        return true;
     }
 }

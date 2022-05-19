@@ -14,6 +14,10 @@ import services.DivisionService;
 import services.ContactService;
 import services.Logger;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
+
 public class SceneController {
     Stage primaryStage;
 
@@ -67,6 +71,24 @@ public class SceneController {
 
         switchToLogin();
         primaryStage.setOnCloseRequest(e -> closeProgram());
+
+    }
+
+    public void checkUpComing() {
+        Appointment upcoming = appointmentService.getUpComing();
+
+        if (upcoming == null) {
+            return;
+        }
+
+        Logger.info("upcoming: ");
+        upcoming.print();
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Alert!");
+        alert.setHeaderText("You have an upcoming appointment.");
+        alert.setContentText(upcoming.toString());
+        alert.show();
     }
 
     public void switchToLogin() {
@@ -74,6 +96,7 @@ public class SceneController {
     }
 
     public void switchToHome() {
+        checkUpComing();
         setScene(homeScene);
     }
 
