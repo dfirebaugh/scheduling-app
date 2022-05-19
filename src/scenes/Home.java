@@ -3,17 +3,19 @@ package scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import java.time.LocalDate;
 
+import java.time.LocalDate;
+import java.util.Comparator;
+
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import models.Appointment;
+import models.AppointmentsByTypeReport;
 import models.Customer;
-import services.UserService;
-import services.AppointmentService;
-import services.CustomerService;
-import services.CountryService;
-import services.DivisionService;
-import services.ContactService;;
+import services.*;
+
 
 public class Home extends AbstractScene {
     private static final String fxmlFilePath = "Home.fxml";
@@ -30,6 +32,12 @@ public class Home extends AbstractScene {
     private Label toastNotification;
     @FXML
     private Label currentSetLabel;
+    @FXML
+    private TextArea byTypeText;
+    @FXML
+    private TextArea byContactText;
+    @FXML
+    private TextArea byCustomerText;
 
     public Home(GridPane gridPane, SceneController sceneController, UserService userService,
             AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
@@ -38,15 +46,6 @@ public class Home extends AbstractScene {
                 divisionService, countryService);
 
         initTables();
-        checkUpcomingAppointments();
-    }
-
-    private void checkUpcomingAppointments() {
-        // if (hasUpdomingAppointments)
-
-    //     alert.showAndWait()
-    //   .filter(response -> response == ButtonType.OK)
-    //   .ifPresent(response -> formatSystem());
     }
 
     private void initTables() {
@@ -140,5 +139,39 @@ public class Home extends AbstractScene {
             return;
         this.customerService.delete(selected);
         sendNotification(toastNotification, "Customer " + selected.getID() + " has been deleted");
+    }
+
+    public void handleUpdateByTypeReport() {
+        Logger.info("selected by Type report");
+        String output = "";
+        ObservableList<AppointmentsByTypeReport> report = appointmentService.getAppointmentsByTypeReport();
+        for (AppointmentsByTypeReport entry : report) {
+            output = output + entry.toString() + "\n";
+        }
+        byTypeText.setText(output);
+    }
+    public void handleUpdateByContact() {
+        Logger.info("selected by Contact report");
+        String output = "";
+
+        Comparator<Appointment> byContactComparator = Comparator.comparing(Appointment::getContactID);
+        SortedList<Appointment> sortedAppointments = new SortedList<>(appointmentService.getAll(), byContactComparator);
+
+        for (Appointment entry : sortedAppointments) {
+            output = output + entry.getContactID().toString() + ": " + entry.toString() + "\n";
+        }
+        byContactText.setText(output);
+    }
+    public void handleUpdateByCustomer() {
+        Logger.info("selected by customer report");
+        String output = "";
+
+        Comparator<Appointment> byCustomerComparator = Comparator.comparing(Appointment::getCustomerID);
+        SortedList<Appointment> sortedAppointments = new SortedList<>(appointmentService.getAll(), byCustomerComparator);
+
+        for (Appointment entry : sortedAppointments) {
+            output = output + entry.getCustomerID().toString() + ": " + entry.toString() + "\n";
+        }
+        byCustomerText.setText(output);
     }
 }

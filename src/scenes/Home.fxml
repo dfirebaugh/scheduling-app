@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -88,13 +89,20 @@
             </top>
          </BorderPane>
       </Tab>
-      <Tab text="Appointments By Type">
+      <Tab onSelectionChanged="#handleUpdateByTypeReport" text="Appointments By Type">
+         <content>
+            <TextArea fx:id="byTypeText" prefHeight="200.0" prefWidth="200.0" text="Appointments By Type" />
+         </content>
       </Tab>
-      <Tab text="Appointments By Contact">
+      <Tab onSelectionChanged="#handleUpdateByContact" text="Appointments By Contact">
+         <content>
+            <TextArea fx:id="byContactText" prefHeight="200.0" prefWidth="200.0" text="Appointments By Contact" />
+         </content>
       </Tab>
-      <Tab text="Consultant Schedule Report">
-      </Tab>
-      <Tab text="Appointment Customer Report">
+      <Tab onSelectionChanged="#handleUpdateByCustomer" text="Consultant Schedule Report">
+         <content>
+            <TextArea fx:id="byCustomerText" prefHeight="200.0" prefWidth="200.0" text="Consultant Schedule Report" />
+         </content>
       </Tab>
    </tabs>
 </TabPane>

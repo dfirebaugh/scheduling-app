@@ -77,4 +77,8 @@ public class AppointmentQueries extends AbstractQuery {
         java.sql.Date date = java.sql.Date.valueOf(LocalDate.now());
         return date;
     }
+
+    public static String getAppointmentsByTypeReport() {
+        return String.format("SELECT `appointments`.`Type`, COUNT(`appointments`.`Type`) as Count, MONTH(`appointments`.`Start`) as Month FROM `client_schedule`.`appointments` group BY `appointments`.`Type`, MONTH(`appointments`.`Start`);");
+    }
 }

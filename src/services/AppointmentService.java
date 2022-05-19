@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import datastore.AppointmentStore;
 import javafx.collections.ObservableList;
 import models.Appointment;
+import models.AppointmentsByTypeReport;
 import models.Customer;
 
 public class AppointmentService {
@@ -94,5 +95,14 @@ public class AppointmentService {
             return "Month: " + currentSet;
         }
         return "Week: " + currentSet;
+    }
+
+    public ObservableList<AppointmentsByTypeReport> getAppointmentsByTypeReport() {
+        try {
+            return AppointmentStore.getAppointmentsByTypeReport();
+        } catch (SQLException e) {
+            Logger.error(e);
+        }
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Appointment;
+import models.AppointmentsByTypeReport;
 import models.Customer;
 
 public class AppointmentStore extends AbstractStore {
@@ -64,5 +65,16 @@ public class AppointmentStore extends AbstractStore {
     }
     public static int deleteAllCustomersAppointments(Customer customer) throws SQLException {
         return AppointmentQueries.executeUpdate(AppointmentQueries.deleteAllCustomersAppointments(customer));
+    }
+
+    public static ObservableList<AppointmentsByTypeReport> getAppointmentsByTypeReport() throws SQLException {
+        ResultSet result = AppointmentQueries.executeQuery(AppointmentQueries.getAppointmentsByTypeReport());
+
+        ObservableList<AppointmentsByTypeReport> appointmentsByTypeReport = FXCollections.observableArrayList();
+        while (result.next()) {
+            AppointmentsByTypeReport a = new AppointmentsByTypeReport(result);
+            appointmentsByTypeReport.add(a);
+        }
+        return appointmentsByTypeReport;
     }
 }
