@@ -78,6 +78,10 @@ public class SceneController {
         Appointment upcoming = appointmentService.getUpComing();
 
         if (upcoming == null) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Alert!");
+            alert.setHeaderText("You have no upcoming appointments in the next 15 minutes.");
+            alert.show();
             return;
         }
 
