@@ -29,6 +29,9 @@ public class Notification {
     @FXML
     private Label textToast;
 
+    /**
+     * builds a toast message to display
+     */
     private void setToast(int toastType, String content){
         textToast.setText(content);
         switch (toastType){
@@ -44,6 +47,9 @@ public class Notification {
         }
     }
 
+    /**
+     * sets the toast message to display
+     */
     public static void showToast(int toastType, Control control, String text){
         Stage dialog = new Stage();
         dialog.initOwner(control.getScene().getWindow());

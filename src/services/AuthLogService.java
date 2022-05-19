@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * AuthService handles login of the user
+ */
 public class AuthLogService {
     private static void write(final String s) throws IOException {
         try (FileWriter fw = new FileWriter("login_activity.txt", true);

@@ -47,6 +47,12 @@ public class Login extends Scene {
     private static final String errInvalidCredentials = "invalid credentials";
     private static final String errInvalidCredentialsFR = "les informations d'identification invalides";
 
+    /**
+     * Class Constructor
+     * @param parent
+     * @param sm
+     * @param us
+     */
     public Login(GridPane parent, SceneController sm, UserService us) {
         super(parent);
         userService = us;
@@ -58,6 +64,9 @@ public class Login extends Scene {
         initNodes(parent);
     }
 
+    /**
+     * Iniitialize the ui
+     */
     private void initNodes(GridPane parent) {
         usernameField = setupUserNameField();
         passwordField = setupPasswordField();
@@ -81,6 +90,9 @@ public class Login extends Scene {
         setupOnEnterHandler();
     }
 
+    /**
+     * setup keybindings
+     */
     private void setupOnEnterHandler() {
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -94,6 +106,9 @@ public class Login extends Scene {
         });
     }
 
+    /**
+     * initialize labels
+     */
     private void initLabels() {
         language = Locale.getDefault().getLanguage();
 
@@ -109,6 +124,9 @@ public class Login extends Scene {
         errorMsgString = "";
     }
 
+    /**
+     * initialize french labels
+     */
     private void setFrenchLabels() {
         zoneIdString = "identifiant de zone: " + ZoneId.systemDefault().toString();
         usernameLabelString = "Nom d'utilisateur: ";
@@ -116,6 +134,9 @@ public class Login extends Scene {
         loginBtnLabel = "connexion";
     }
 
+    /**
+     * initialize english labels
+     */
     private void setEnglishLabels() {
         zoneIdString = "ZoneId: " + ZoneId.systemDefault().toString();
         usernameLabelString = "username: ";
@@ -123,6 +144,10 @@ public class Login extends Scene {
         loginBtnLabel = "login";
     }
 
+    /**
+     * setup the name field
+     * @return
+     */
     private TextField setupUserNameField() {
         TextField textField = new TextField();
         textField.setOnKeyReleased(e -> {
@@ -133,6 +158,10 @@ public class Login extends Scene {
         return textField;
     }
 
+    /**
+     * setup password field
+     * @return
+     */
     private PasswordField setupPasswordField() {
         PasswordField textField = new PasswordField();
         textField.setOnKeyReleased(e -> {
@@ -143,6 +172,10 @@ public class Login extends Scene {
         return textField;
     }
 
+    /**
+     * setup login button event handler
+     * @return
+     */
     private Button setupLoginBtn() {
         var loginBtn = new Button();
         loginBtn.setText(loginBtnLabel);
@@ -155,15 +188,25 @@ public class Login extends Scene {
         return loginBtn;
     }
 
+    /**
+     * clears the error message
+     */
     private void clearErrorMsg() {
         errorMsgString = "";
     }
 
+    /**
+     * shows an error message
+     * @param msg
+     */
     private void setErrorMsg(String msg) {
         errorMsgString = msg;
         errorMsgText.setText(msg);
     }
 
+    /**
+     * handles login and verifies that the user is valid
+     */
     private void evaluateCredentials() {
         if (language == "fr") {
             if (username == null) {

@@ -68,16 +68,33 @@ public class AppointmentScene extends AbstractScene {
 
     public Appointment currentAppointment;
 
+    /**
+     * setup values in the contact selector
+     */
     private void populateContactSelector() {
         contactSelector.getItems().clear();
         contactSelector.getItems().addAll(contactService.get().stream().collect(Collectors.toList()));
     }
 
+    /**
+     * setup values in customer selector
+     */
     private void populateCustomerSelector() {
         customerSelector.getItems().clear();
         customerSelector.getItems().addAll(customerService.get().stream().collect(Collectors.toList()));
     }
 
+    /**
+     * Class constructor
+     * @param gridPane
+     * @param sceneController
+     * @param userService
+     * @param appointmentService
+     * @param customerService
+     * @param contactService
+     * @param divisionService
+     * @param countryService
+     */
     public AppointmentScene(GridPane gridPane, SceneController sceneController, UserService userService,
             AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
             DivisionService divisionService, CountryService countryService) {
@@ -85,16 +102,26 @@ public class AppointmentScene extends AbstractScene {
                 divisionService, countryService);
     }
 
+    /**
+     * initialization of the scene
+     */
     public void init() {
         titleLabel.setText(operationType);
         populateContactSelector();
         populateCustomerSelector();
     }
 
+    /**
+     * when we close the scene, we need to tell the scene manager to switch back to the home scene
+     */
     public void handleClose() {
         sceneManger.switchToHome();
     }
 
+    /**
+     * handles saving the Appointment to the DB
+     * this simply determines if we need to add or update an appointment and calls the appropriate function to do so
+     */
     public void handleSave() {
         if (!isValid())
             return;
@@ -106,14 +133,25 @@ public class AppointmentScene extends AbstractScene {
         sceneManger.switchToHome();
     }
 
+    /**
+     * formats the start timestamp
+     * @return
+     */
     private Timestamp getStartTimeStamp() {
         return java.sql.Timestamp.valueOf(startDateField.getText() + " " + startTimeField.getText() + ":00");
     }
 
+    /**
+     * formats the end timestamp
+     * @return
+     */
     private Timestamp getEndTimeStamp() {
         return java.sql.Timestamp.valueOf(endDateField.getText() + " " + endTimeField.getText() + ":00");
     }
 
+    /**
+     * add appointment calls the service to add appointment to the db
+     */
     private void addAppointment() {
         appointmentService.add(new Appointment(titleField.getText(), descriptionField.getText(),
                 locationField.getText(), typeField.getText(), getStartTimeStamp(), getEndTimeStamp(),
@@ -121,6 +159,9 @@ public class AppointmentScene extends AbstractScene {
                 userService.getCurrentLoggedInUser().getID()));
     }
 
+    /**
+     * update appointment calls the appointments service to update an existing appointment.
+     */
     private void updateAppointment() {
         appointmentService.update(new Appointment(currentAppointment.getID(), titleField.getText(),
                 descriptionField.getText(), locationField.getText(), typeField.getText(), getStartTimeStamp(),
@@ -128,6 +169,11 @@ public class AppointmentScene extends AbstractScene {
                 userService.getCurrentLoggedInUser().getID()));
     }
 
+    /**
+     * setCurrentAppointment pulls existing appointment data into memory to populate the form
+     * @param appointment
+     * @param operationType
+     */
     public void setCurrentAppointment(Appointment appointment, String operationType) {
         setOperationType(operationType);
         init();
@@ -178,6 +224,11 @@ public class AppointmentScene extends AbstractScene {
         return false;
     }
 
+    /**
+     * formats the passed in timestamp as EST
+     * @param timestamp
+     * @return
+     */
     private String formatDateTimeEST(Timestamp timestamp) {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         ZonedDateTime z = timestamp.toInstant().atZone(ZoneId.of("EST"));
@@ -185,6 +236,10 @@ public class AppointmentScene extends AbstractScene {
         return z.format(fmt);
     }
 
+    /**
+     * form validation
+     * @return
+     */
     private boolean isValid() {
         Pattern datePattern = Pattern.compile("\\d{4}\\-\\d{2}\\-\\d{2}");
         Pattern timePattern = Pattern.compile("\\d{2}\\:\\d{2}");
@@ -236,6 +291,10 @@ public class AppointmentScene extends AbstractScene {
         return true;
     }
 
+    /**
+     * populate UI with existing appointment info
+     * @param appointment
+     */
     private void populateExistingAppointment(Appointment appointment) {
         appointmentIDField.setText(appointment.getID().toString());
         titleField.setText(appointment.getTitle());
@@ -250,6 +309,9 @@ public class AppointmentScene extends AbstractScene {
         customerSelector.setValue(customerService.get(appointment.getCustomerID()));
     }
 
+    /**
+     * clears the form
+     */
     public void clear() {
         contactSelector.setValue(null);
         customerSelector.setValue(null);

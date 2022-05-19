@@ -99,7 +99,7 @@
             <TextArea fx:id="byContactText" prefHeight="200.0" prefWidth="200.0" text="Appointments By Contact" />
          </content>
       </Tab>
-      <Tab onSelectionChanged="#handleUpdateByCustomer" text="Consultant Schedule Report">
+      <Tab onSelectionChanged="#handleUpdateByCustomer" text="Appointments By Customer Report">
          <content>
             <TextArea fx:id="byCustomerText" prefHeight="200.0" prefWidth="200.0" text="Consultant Schedule Report" />
          </content>

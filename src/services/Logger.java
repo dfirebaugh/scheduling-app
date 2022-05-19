@@ -2,6 +2,9 @@ package services;
 
 import java.sql.SQLException;
 
+/**
+ * a logger service for convenient log levels
+ */
 public class Logger {
     public static int level = 0;
     public static int LogLevelDebug = 1;

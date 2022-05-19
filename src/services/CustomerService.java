@@ -9,12 +9,22 @@ import models.Customer;
 public class CustomerService {
     private final AppointmentService appointmentService;
 
+    /**
+     * listener for triggering updates reactively
+     */
     public ServiceSubscriber<Customer> listener;
 
+    /**
+     * class constructor
+     * @param appointmentService
+     */
     public CustomerService(final AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
-
+    /**
+     * get all customers
+     * @return
+     */
     public ObservableList<Customer> get() {
         try {
             return listener.requestUpdate(CustomerStore.get());
@@ -24,6 +34,11 @@ public class CustomerService {
         }
     }
 
+    /**
+     * get a specific customer
+     * @param lookup
+     * @return
+     */
     public Customer get(Customer lookup) {
         try {
             return CustomerStore.get(lookup);
@@ -32,6 +47,11 @@ public class CustomerService {
             return null;
         }
     }
+    /**
+     * get specific customer based on customer ID
+     * @param customerID
+     * @return
+     */
     public Customer get(Integer customerID) {
         try {
             return CustomerStore.get(customerID);
@@ -41,6 +61,10 @@ public class CustomerService {
         }
     }
 
+    /**
+     * add a customer to the DB
+     * @param customer
+     */
     public void add(Customer customer) {
         try {
             Logger.info("attempting to add costumer");
@@ -52,6 +76,10 @@ public class CustomerService {
         }
     }
 
+    /**
+     * update a specific customer
+     * @param customer
+     */
     public void update(Customer customer) {
         try {
             CustomerStore.update(customer);
@@ -61,6 +89,11 @@ public class CustomerService {
         }
     }
 
+    /**
+     * delete a customer.
+     * > Note: we have to delete all of the customers appointments before we can actually delete them
+     * @param customer
+     */
     public void delete(Customer customer) {
         try {
             this.appointmentService.deleteAllCustomersAppointments(customer);
@@ -71,6 +104,10 @@ public class CustomerService {
         }
     }
 
+    /**
+     * registers a listener so that we can trigger updates in a reactive manner.
+     * @param listener
+     */
     public void registerListener(ServiceSubscriber<Customer> listener) {
         this.listener = listener;
     }

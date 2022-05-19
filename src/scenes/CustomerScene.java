@@ -44,6 +44,9 @@ public class CustomerScene extends AbstractScene {
     @FXML
     private ComboBox<Country> countryComboBox;
 
+    /** 
+     * Class constructor
+     */
     public CustomerScene(GridPane gridPane, SceneController sceneController, UserService userService,
             AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
             DivisionService divisionService, CountryService countryService) {
@@ -53,11 +56,17 @@ public class CustomerScene extends AbstractScene {
         populateCountryComboBox();
     }
 
+    /**
+     * populates the country dropdown
+     */
     private void populateCountryComboBox() {
         countryComboBox.getItems().clear();
         countryComboBox.getItems().addAll(countryService.get().stream().collect(Collectors.toList()));
     }
 
+    /**
+     * populates division drop down
+     */
     private void populateDivisionComboBox() {
         Country selectedCountry = countryComboBox.getValue();
         if (selectedCountry == null) {
@@ -68,10 +77,16 @@ public class CustomerScene extends AbstractScene {
                 .addAll(divisionService.get(selectedCountry.getID()).stream().collect(Collectors.toList()));
     }
 
+    /**
+     * handles closing the form
+     */
     public void handleClose() {
         this.sceneManger.switchToHome();
     }
 
+    /**
+     * handle saving the customer
+     */
     public void handleSave() {
         if (customer != null)
             customer.print();
@@ -90,10 +105,16 @@ public class CustomerScene extends AbstractScene {
         this.sceneManger.switchToHome();
     }
 
+    /**
+     * when the country changes, we need to update what shows up in the division dropdown
+     */
     public void handleCountryUpdate() {
         populateDivisionComboBox();
     }
 
+    /**
+     * handles adding the customer to the DB
+     */
     private void handleAdd() {
         Division selected = divisionComboBox.getValue();
         Customer toAdd = new Customer(nameField.getText(), addressField.getText(), postalCodeField.getText(),
@@ -102,6 +123,9 @@ public class CustomerScene extends AbstractScene {
         this.customerService.add(toAdd);
     }
 
+    /**
+     * modify and existing customer in the DB
+     */
     private void handleModify() {
         Customer toModify = new Customer(customer.getID(), nameField.getText(), addressField.getText(),
                 postalCodeField.getText(), phoneField.getText(),
@@ -110,6 +134,11 @@ public class CustomerScene extends AbstractScene {
         this.customerService.update(toModify);
     }
 
+    /**
+     * pulls existing customer info into memory
+     * @param customer
+     * @param operationType
+     */
     public void setCurrentCustomer(Customer customer, String operationType) {
         Logger.info(operationType);
 
@@ -123,6 +152,10 @@ public class CustomerScene extends AbstractScene {
             populateExistingCustomer(customer);
     }
 
+    /**
+     * form validation
+     * @return
+     */
     private boolean isValid() {
         if (checkError(toastNotification, nameField.getText().length() < 1, "must have a valid name")) {
             return false;
@@ -152,6 +185,10 @@ public class CustomerScene extends AbstractScene {
         return true;
     }
 
+    /**
+     * populates existing customer info into the form
+     * @param customer
+     */
     private void populateExistingCustomer(Customer customer) {
         idField.setText(customer.getID().toString());
         nameField.setText(customer.getName());
@@ -162,6 +199,9 @@ public class CustomerScene extends AbstractScene {
         divisionComboBox.setValue(divisionService.getOne(customer.getDivisionID()));
     }
 
+    /**
+     * clear the form
+     */
     public void clear() {
         idField.setText("");
         nameField.setText("");

@@ -11,10 +11,20 @@ import services.ServiceSubscriber;
 
 public class TableUpdater<S> implements ServiceSubscriber<S> {
     TableView<S> tableElement;
+
+    /**
+     * class Constructor
+     * @param tableElement
+     */
     TableUpdater(TableView<S> tableElement) {
         this.tableElement = tableElement;
     }
 
+    /**
+     * builds the columns of the table
+     * @param key
+     * @return
+     */
     TableColumn<S, String> columnFactory(String key) {
         TableColumn<S, String> tableColumn = new TableColumn<S, String>(key);
         tableColumn.setCellValueFactory(
@@ -43,10 +53,22 @@ public class TableUpdater<S> implements ServiceSubscriber<S> {
         return items;
     }
 
+    /**
+     * predicate to determine if the selection is null
+     * @param <T>
+     * @param table
+     * @return
+     */
     public static <T> boolean isNullSelection(TableView<T> table) {
         return getSelected(table) == null;
     }
 
+    /**
+     * gets current selection from the table
+     * @param <T>
+     * @param table
+     * @return
+     */
     public static <T> T getSelected(TableView<T> table) {
         return table.getSelectionModel().getSelectedItem();
     }

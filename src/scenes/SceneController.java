@@ -33,10 +33,16 @@ public class SceneController {
     private AppointmentScene appointmentScene;
     private CustomerScene customerScene;
 
+    /**
+     * sets logLevel for the app
+     */
     private void initLogLevel() {
-        Logger.level = Logger.LogLevelInfo;
+        Logger.level = Logger.LogLevelError;
     }
 
+    /**
+     * initializes all services
+     */
     private void initServices() {
         userService = new UserService();
         appointmentService = new AppointmentService();
@@ -47,11 +53,18 @@ public class SceneController {
         userService = new UserService();
     }
 
+    /**
+     * initializes the javafx stage
+     * @param ps
+     */
     private void initStage(Stage ps) {
         primaryStage = ps;
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Scheduling App");
     }
 
+    /**
+     * initialize scenes that we can switch between
+     */
     private void initScenes() {
         loginScene = new Login(new GridPane(), this, userService);
         homeScene = new Home(new GridPane(), this, userService, appointmentService, customerService, contactService,
@@ -62,6 +75,10 @@ public class SceneController {
                 contactService, divisionService, countryService);
     }
 
+    /**
+     * Class constructor
+     * @param ps
+     */
     public SceneController(Stage ps) {
         initLogLevel();
         initServices();
@@ -74,6 +91,9 @@ public class SceneController {
 
     }
 
+    /**
+     * Checks to see if we have any upcoming appointments
+     */
     public void checkUpComing() {
         Appointment upcoming = appointmentService.getUpComing();
 
@@ -95,40 +115,69 @@ public class SceneController {
         alert.show();
     }
 
+    /**
+     * switch to login scene
+     */
     public void switchToLogin() {
         setScene(loginScene);
     }
 
+    /**
+     * switch to home scene
+     */
     public void switchToHome() {
         checkUpComing();
         setScene(homeScene);
     }
 
+    /**
+     * switch to appointment Scene
+     */
     public void switchToAppointment() {
         appointmentScene.setCurrentAppointment(new Appointment(), AppointmentScene.AddAppointmentOperation);
         setScene(appointmentScene);
     }
 
+    /**
+     * switch to appointment scene
+     * @param operationType
+     * @param appointment
+     */
     public void switchToAppointment(String operationType, Appointment appointment) {
         appointmentScene.setCurrentAppointment(appointment, operationType);
         setScene(appointmentScene);
     }
 
+    /**
+     * switch to customer scene
+     */
     public void switchToCustomer() {
         customerScene.setCurrentCustomer(new Customer(), CustomerScene.AddCustomerOperation);
         setScene(customerScene);
     }
 
+    /**
+     * switch to customer scene
+     * @param customer
+     * @param operationType
+     */
     public void switchToCustomer(Customer customer, String operationType) {
         customerScene.setCurrentCustomer(customer, operationType);
         setScene(customerScene);
     }
 
+    /**
+     * sets the scene to whatever we pass in as an argument
+     * @param scene
+     */
     public void setScene(Scene scene) {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    /**
+     * exits the app
+     */
     private void closeProgram() {
         Logger.info("closing...");
         JDBC.closeConnection();

@@ -39,6 +39,17 @@ public class Home extends AbstractScene {
     @FXML
     private TextArea byCustomerText;
 
+    /**
+     * class Constructor
+     * @param gridPane
+     * @param sceneController
+     * @param userService
+     * @param appointmentService
+     * @param customerService
+     * @param contactService
+     * @param divisionService
+     * @param countryService
+     */
     public Home(GridPane gridPane, SceneController sceneController, UserService userService,
             AppointmentService appointmentService, CustomerService customerService, ContactService contactService,
             DivisionService divisionService, CountryService countryService) {
@@ -48,6 +59,9 @@ public class Home extends AbstractScene {
         initTables();
     }
 
+    /**
+     * initialize the home screen
+     */
     private void initTables() {
         appointmentService.setCurrentSet(0);
         appointmentService.setIsMonth(true);
@@ -65,10 +79,16 @@ public class Home extends AbstractScene {
         setCurrentOperationTypeLabel();
     }
 
+    /**
+     * opens the add appointment form
+     */
     public void handleAddAppointment() {
         this.sceneManger.switchToAppointment();
     }
 
+    /**
+     * opens the modify appointment form
+     */
     public void handleModifyAppointment() {
         if (checkError(toastNotification, TableUpdater.getSelected(appointmentTable) == null,
                 "you must select an appointment to modify"))
@@ -77,6 +97,9 @@ public class Home extends AbstractScene {
                 TableUpdater.getSelected(appointmentTable));
     }
 
+    /**
+     * delete appointment 
+     */
     public void handleMonthDeleteAppointment() {
         Appointment selected = TableUpdater.getSelected(appointmentTable);
         if (checkError(toastNotification, TableUpdater.isNullSelection(appointmentTable),
@@ -87,10 +110,16 @@ public class Home extends AbstractScene {
                 "Appointment " + selected.getID() + " of type: " + selected.getType() + " has been deleted");
     }
 
+    /**
+     * opens the add customer form
+     */
     public void handleAddCustomer() {
         this.sceneManger.switchToCustomer();
     }
 
+    /**
+     * opens the modify customer form
+     */
     public void handleModifyCustomer() {
         if (checkError(toastNotification, TableUpdater.isNullSelection(customerTable),
                 "you must select a customer to modify"))
@@ -100,11 +129,17 @@ public class Home extends AbstractScene {
                 CustomerScene.ModifyCustomerOperation);
     }
 
+    /**
+     * increment the current appointment page
+     */
     public void handleIncrement() {
         appointmentService.setCurrentSet(appointmentService.getCurrentSet()+1);
         currentSetLabel.setText(appointmentService.getTableLabel());
         appointmentService.get();
     }
+    /**
+     * decrement the current appointment page
+     */
     public void handleDecrement() {
         appointmentService.setCurrentSet(appointmentService.getCurrentSet()-1);
         currentSetLabel.setText(appointmentService.getTableLabel());
@@ -112,16 +147,25 @@ public class Home extends AbstractScene {
     }
 
 
+    /**
+     * sets the current operation label
+     */
     private void setCurrentOperationTypeLabel() {
         if (currentSetLabel == null) return;
         currentSetLabel.setText(appointmentService.getTableLabel());
     }
+    /**
+     * change to week view
+     */
     public void handleSetIsWeek() {
         appointmentService.setCurrentSet(0);
         appointmentService.setIsMonth(false);
         setCurrentOperationTypeLabel();
         appointmentService.get();
     }
+    /**
+     * change to month view
+     */
     public void handleSetIsMonth() {
         appointmentService.setCurrentSet(0);
         appointmentService.setIsMonth(true);
@@ -129,10 +173,16 @@ public class Home extends AbstractScene {
         appointmentService.get();
     }
 
+    /**
+     * tell the scene manager to logout
+     */
     public void handleLogout() {
         this.sceneManger.switchToLogin();
     }
 
+    /**
+     * tell the customerService that we want to delete a customer
+     */
     public void handleDeleteCustomer() {
         Customer selected = TableUpdater.getSelected(customerTable);
         if (checkError(toastNotification, selected == null, "you must select a customer to delete"))
@@ -141,6 +191,10 @@ public class Home extends AbstractScene {
         sendNotification(toastNotification, "Customer " + selected.getID() + " has been deleted");
     }
 
+    /**
+     * updates information in the Appointments by type report
+     * This happens when click the by type tab
+     */
     public void handleUpdateByTypeReport() {
         Logger.info("selected by Type report");
         String output = "";
@@ -150,6 +204,9 @@ public class Home extends AbstractScene {
         }
         byTypeText.setText(output);
     }
+    /**
+     * updates information in the by contact report tab
+     */
     public void handleUpdateByContact() {
         Logger.info("selected by Contact report");
         String output = "";
@@ -162,6 +219,9 @@ public class Home extends AbstractScene {
         }
         byContactText.setText(output);
     }
+    /**
+     * update data in the by customer report tab
+     */
     public void handleUpdateByCustomer() {
         Logger.info("selected by customer report");
         String output = "";

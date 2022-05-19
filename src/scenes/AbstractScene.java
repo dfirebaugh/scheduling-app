@@ -12,6 +12,10 @@ import services.DivisionService;
 import services.ContactService;
 import services.Logger;
 
+/**
+ * Abstract class that most scenes will have.
+ * This class instantiates several services and helps to reduce code redundancy
+ */
 public abstract class AbstractScene extends Scene {
     public GridPane parent;
     public SceneController sceneManger;
