@@ -36,6 +36,7 @@ public class TableUpdater<S> implements ServiceSubscriber<S> {
     /**
      * initColumns
      * add the columns to the table
+     * Note: a lambda function is used here to build each column based on what exists in the model
      */
     public void initColumns(Stream<String> keys) {
         this.tableElement.getColumns().clear();

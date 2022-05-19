@@ -92,6 +92,7 @@ public class Login extends Scene {
 
     /**
      * setup keybindings
+     * note: a lamda function is used here to set the event handler
      */
     private void setupOnEnterHandler() {
         passwordField.setOnKeyPressed(event -> {
@@ -146,6 +147,7 @@ public class Login extends Scene {
 
     /**
      * setup the name field
+     * note: a lamda function is used here to set the event handler
      * @return
      */
     private TextField setupUserNameField() {
@@ -160,6 +162,7 @@ public class Login extends Scene {
 
     /**
      * setup password field
+     * note: a lamda function is used here to set the event handler
      * @return
      */
     private PasswordField setupPasswordField() {
@@ -174,6 +177,7 @@ public class Login extends Scene {
 
     /**
      * setup login button event handler
+     * note: a lamda function is used here to set the event handler
      * @return
      */
     private Button setupLoginBtn() {

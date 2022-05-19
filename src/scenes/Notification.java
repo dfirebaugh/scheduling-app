@@ -49,6 +49,7 @@ public class Notification {
 
     /**
      * sets the toast message to display
+     * note: a lamda function is used here trigger the toast message to close after a certain amount of time
      */
     public static void showToast(int toastType, Control control, String text){
         Stage dialog = new Stage();
