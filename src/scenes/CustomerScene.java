@@ -195,7 +195,8 @@ public class CustomerScene extends AbstractScene {
         addressField.setText(customer.getAddress());
         postalCodeField.setText(customer.getPostalCode());
         phoneField.setText(customer.getPhone());
-        countryComboBox.setValue(countryService.get(divisionService.getOne(customer.getDivisionID()).getCountryID()));
+
+        countryComboBox.setValue(countryService.get(customer.getCountry()));
         divisionComboBox.setValue(divisionService.getOne(customer.getDivisionID()));
     }
 

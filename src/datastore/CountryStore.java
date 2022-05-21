@@ -20,4 +20,7 @@ public class CountryStore extends AbstractStore {
     public static Country get(Integer countryID) throws SQLException {
         return new Country(getFirst(CountryQueries.executeQuery(CountryQueries.get(countryID))));
     }
+    public static Country get(String countryName) throws SQLException {
+        return new Country(getFirst(CountryQueries.executeQuery(CountryQueries.get(countryName))));
+    }
 }

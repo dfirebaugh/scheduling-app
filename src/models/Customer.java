@@ -103,7 +103,7 @@ public class Customer {
     }
 
     public String toString() {
-        return name;
+        return String.format("name: %s, country: %s, division: %d", name, country, divisionID);
     }
 
     public static Stream<String> getKeys() {

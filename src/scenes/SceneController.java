@@ -162,6 +162,7 @@ public class SceneController {
      * @param operationType
      */
     public void switchToCustomer(Customer customer, String operationType) {
+        initScenes();
         customerScene.setCurrentCustomer(customer, operationType);
         setScene(customerScene);
     }

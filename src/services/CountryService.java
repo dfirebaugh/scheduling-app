@@ -32,4 +32,13 @@ public class CountryService {
             return null;
         }
     }
+
+    public Country get(String countryName) {
+        try {
+            return CountryStore.get(countryName);
+        } catch (SQLException e) {
+            Logger.error(e);
+            return null;
+        }
+    }
 }

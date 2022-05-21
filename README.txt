@@ -1,4 +1,6 @@
 # Scheduling app
+Version: 2
+Submitted: 5/20/2022
 
 ## Purpose
 This is a GUI application that will help facilitate scheduling of appointments.
